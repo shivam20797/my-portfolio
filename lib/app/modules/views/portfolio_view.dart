@@ -23,12 +23,14 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
   ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
     _scrollController = ScrollController();
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 1000),
@@ -97,7 +99,9 @@ class _PortfolioViewState extends State<PortfolioView>
                     Container(key: _sectionKeys[0], child: _buildAbout()),
                     Container(key: _sectionKeys[1], child: _buildSkills()),
                     Container(key: _sectionKeys[2], child: _buildExperience()),
-                    Container(key: _sectionKeys[3], child: _buildProjects()),
+                    Container(key: _sectionKeys[3], child: _buildEducation()),
+                    Container(key: _sectionKeys[4], child: _buildLanguages()),
+                    Container(key: _sectionKeys[5], child: _buildProjects()),
                   ],
                 ),
               ),
@@ -139,6 +143,8 @@ class _PortfolioViewState extends State<PortfolioView>
           Tab(text: 'About'),
           Tab(text: 'Skills'),
           Tab(text: 'Experience'),
+          Tab(text: 'Education'),
+          Tab(text: 'Languages'),
           Tab(text: 'Projects'),
         ],
       ),
@@ -295,7 +301,6 @@ class _PortfolioViewState extends State<PortfolioView>
                         _buildAnimatedSkillChip('Flutter', 200),
                         _buildAnimatedSkillChip('Android', 400),
                         _buildAnimatedSkillChip('Firebase', 600),
-                        _buildAnimatedSkillChip('MVVM', 800),
                       ],
                     ),
                   ],
@@ -397,9 +402,9 @@ class _PortfolioViewState extends State<PortfolioView>
                         children: [
                           _buildAnimatedStatCard('6+', 'Years Experience', 0),
                           const SizedBox(height: 15),
-                          _buildAnimatedStatCard('30+', 'Apps Built', 200),
+                          _buildAnimatedStatCard('30+', 'Apps Delivered', 200),
                           const SizedBox(height: 15),
-                          _buildAnimatedStatCard('12+', 'Technologies', 400),
+                          _buildAnimatedStatCard('15+', 'Technologies', 400),
                         ],
                       )
                     else
@@ -407,8 +412,8 @@ class _PortfolioViewState extends State<PortfolioView>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildAnimatedStatCard('6+', 'Years Experience', 0),
-                          _buildAnimatedStatCard('30+', 'Apps Built', 200),
-                          _buildAnimatedStatCard('12+', 'Technologies', 400),
+                          _buildAnimatedStatCard('30+', 'Apps Delivered', 200),
+                          _buildAnimatedStatCard('15+', 'Technologies', 400),
                         ],
                       ),
                   ],
@@ -548,11 +553,11 @@ class _PortfolioViewState extends State<PortfolioView>
                         ),
                       ),
                       const SizedBox(height: 20),
-                      _buildSkillCategory('Mobile Development', Icons.phone_android, ['Kotlin', 'Java', 'Dart', 'Android SDK']),
+                      _buildSkillCategory('Mobile Development', Icons.phone_android, ['Kotlin', 'Java', 'Dart']),
                       _buildSkillCategory('Architecture', Icons.architecture, ['MVVM', 'Clean Architecture']),
-                      _buildSkillCategory('Backend & APIs', Icons.api, ['Retrofit', 'Firebase', 'REST APIs']),
+                      _buildSkillCategory('Backend & APIs', Icons.api, ['Retrofit', 'REST APIs']),
                       _buildSkillCategory('Database', Icons.storage, ['Room', 'SQLite']),
-                      _buildSkillCategory('Tools & Services', Icons.build, ['Android Studio', 'Git', 'OneSignal']),
+                      _buildSkillCategory('Tools', Icons.build, ['Android Studio', 'Git']),
                     ],
                   ),
                 ),
@@ -569,34 +574,41 @@ class _PortfolioViewState extends State<PortfolioView>
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+          colors: [Color(0xFFe0f2fe), Color(0xFFb3e5fc)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF60a5fa).withOpacity(0.3),
+            color: const Color(0xFF60a5fa).withOpacity(0.15),
             blurRadius: 20,
-            offset: const Offset(0, 10),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Column(
         children: [
-          const Text(
-            'Let\'s Connect',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          Row(
+            children: [
+              Icon(Icons.connect_without_contact, color: const Color(0xFF1976d2), size: 20),
+              const SizedBox(width: 8),
+              const Text(
+                'Get In Touch',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1976d2),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
-          _buildModernContactItem(Icons.email_rounded, 'shivamcsaiet316@gmail.com', 'mailto:shivamcsaiet316@gmail.com'),
-          _buildModernContactItem(Icons.phone_rounded, '+91 9057448064', 'tel:+919057448064'),
-          _buildModernContactItem(Icons.work_rounded, 'LinkedIn Profile', 'https://www.linkedin.com/in/shivam20797'),
-          _buildModernContactItem(Icons.web_rounded, 'Portfolio Website', 'https://shivam20797.github.io/web-app/'),
+          _buildModernContactItem(Icons.email_outlined, 'Email Me', 'mailto:shivamcsaiet316@gmail.com'),
+          _buildModernContactItem(Icons.phone_outlined, 'Call Me', 'tel:+919057448064'),
+          _buildModernContactItem(Icons.work_outline, 'LinkedIn', 'https://www.linkedin.com/in/shivam20797'),
+          _buildModernContactItem(Icons.language, 'Portfolio', 'https://shivam20797.github.io/web-app/'),
         ],
       ),
     );
@@ -609,34 +621,34 @@ class _PortfolioViewState extends State<PortfolioView>
         onTap: () => _launchUrl(url),
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withOpacity(0.7),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
+            border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.2)),
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: const Color(0xFF60a5fa).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(icon, size: 16, color: Colors.white),
+                child: Icon(icon, size: 16, color: const Color(0xFF1976d2)),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   text,
                   style: const TextStyle(
-                    fontSize: 11,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    color: Color(0xFF1976d2),
+                    fontWeight: FontWeight.w600,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              Icon(Icons.arrow_forward_ios, size: 12, color: const Color(0xFF1976d2).withOpacity(0.6)),
             ],
           ),
         ),
@@ -692,12 +704,10 @@ class _PortfolioViewState extends State<PortfolioView>
           children: [
             _buildAnimatedSkillCard(Icons.android, 'Kotlin', 'Native Android', 0),
             _buildAnimatedSkillCard(Icons.code, 'Java', 'Object-Oriented', 100),
-            _buildAnimatedSkillCard(Icons.flutter_dash, 'Dart', 'Flutter Framework', 200),
-            _buildAnimatedSkillCard(Icons.architecture, 'MVVM', 'Architecture Pattern', 300),
-            _buildAnimatedSkillCard(Icons.api, 'Retrofit', 'REST API Client', 400),
-            _buildAnimatedSkillCard(Icons.cloud, 'Firebase', 'Backend Services', 500),
-            _buildAnimatedSkillCard(Icons.storage, 'Room', 'Local Database', 600),
-            _buildAnimatedSkillCard(Icons.developer_mode, 'Android Studio', 'IDE', 700),
+            _buildAnimatedSkillCard(Icons.flutter_dash, 'Flutter', 'Cross Platform', 200),
+            _buildAnimatedSkillCard(Icons.architecture, 'MVVM', 'Architecture', 300),
+            _buildAnimatedSkillCard(Icons.api, 'Retrofit', 'REST APIs', 400),
+            _buildAnimatedSkillCard(Icons.cloud, 'Firebase', 'Backend', 500),
           ],
         );
       },
@@ -809,6 +819,250 @@ class _PortfolioViewState extends State<PortfolioView>
                   ),
                 ],
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEducation() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          color: const Color(0xFF1e293b),
+          child: Column(
+            children: [
+              Text(
+                'Education',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 800),
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, value, child) {
+                  return Transform.translate(
+                    offset: Offset(30 * (1 - value), 0),
+                    child: Opacity(
+                      opacity: value,
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFf8fafc), Color(0xFFe2e8f0)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF60a5fa).withOpacity(0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF60a5fa).withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.school,
+                                size: 32,
+                                color: Color(0xFF1976d2),
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Bachelor of Technology (B.Tech)',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1976d2),
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Computer Science',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF475569),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_outlined,
+                                        size: 16,
+                                        color: const Color(0xFF64748b),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Text(
+                                        'Rajasthan Technical University, India',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF64748b),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_today_outlined,
+                                        size: 16,
+                                        color: const Color(0xFF64748b),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Text(
+                                        '07/2014 - 07/2018',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF64748b),
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguages() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          child: Column(
+            children: [
+              Text(
+                'Languages',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              if (isMobile)
+                Column(
+                  children: [
+                    _buildLanguageCard('English', 'Professional Working Proficiency', Icons.language, 0),
+                    const SizedBox(height: 16),
+                    _buildLanguageCard('Hindi', 'Full Professional Proficiency', Icons.translate, 200),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Expanded(child: _buildLanguageCard('English', 'Professional Working Proficiency', Icons.language, 0)),
+                    const SizedBox(width: 20),
+                    Expanded(child: _buildLanguageCard('Hindi', 'Full Professional Proficiency', Icons.translate, 200)),
+                  ],
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageCard(String language, String proficiency, IconData icon, int delay) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 800 + delay),
+      tween: Tween(begin: 0.0, end: 1.0),
+      builder: (context, value, child) {
+        return Transform.scale(
+          scale: value,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFfef3c7), Color(0xFFfde68a)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFf59e0b).withOpacity(0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFf59e0b).withOpacity(0.2),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFf59e0b).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 28,
+                    color: const Color(0xFFd97706),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  language,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFd97706),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  proficiency,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF92400e),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         );
