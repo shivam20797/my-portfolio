@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/web_controller';
 import 'webview_page.dart';
+import 'portfolio_view.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -153,6 +154,26 @@ class HomeView extends StatelessWidget {
                               );
                             }
                           },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.person),
+                          label: const Text(
+                            'View Portfolio',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.blue[600],
+                            side: BorderSide(color: Colors.blue[600]!, width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () => Get.to(() => const PortfolioView()),
                         ),
                       ),
                     ],

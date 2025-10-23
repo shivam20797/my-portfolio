@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app/modules/views/home_view.dart';
+import 'app/modules/views/portfolio_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'WebView App Generator',
       debugShowCheckedModeBanner: false,
-      home: HomeView(),
+      home: PortfolioView(),
     );
   }
 }
