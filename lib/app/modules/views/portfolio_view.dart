@@ -139,6 +139,9 @@ class _PortfolioViewState extends State<PortfolioView>
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
         onTap: _scrollToSection,
+        isScrollable: true,
+        labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: const TextStyle(fontSize: 12),
         tabs: const [
           Tab(text: 'About'),
           Tab(text: 'Skills'),
@@ -855,7 +858,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     child: Opacity(
                       opacity: value,
                       child: Container(
-                        padding: const EdgeInsets.all(24),
+                        padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xFFf8fafc), Color(0xFFe2e8f0)],
@@ -872,83 +875,168 @@ class _PortfolioViewState extends State<PortfolioView>
                             ),
                           ],
                         ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF60a5fa).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                Icons.school,
-                                size: 32,
-                                color: Color(0xFF1976d2),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        child: constraints.maxWidth <= 600
+                            ? Column(
                                 children: [
-                                  const Text(
-                                    'Bachelor of Technology (B.Tech)',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1976d2),
+                                  Container(
+                                    padding: EdgeInsets.all(isWeb ? 16 : 12),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF60a5fa).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Icon(
+                                      Icons.school,
+                                      size: isWeb ? 32 : (isTablet ? 28 : 24),
+                                      color: const Color(0xFF1976d2),
                                     ),
                                   ),
-                                  const Text(
-                                    'Computer Science',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF475569),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Row(
+                                  SizedBox(height: isWeb ? 16 : 12),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 16,
-                                        color: const Color(0xFF64748b),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      const Text(
-                                        'Rajasthan Technical University, India',
+                                      Text(
+                                        'Bachelor of Technology (B.Tech)',
                                         style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF64748b),
+                                          fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xFF1976d2),
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_today_outlined,
-                                        size: 16,
-                                        color: const Color(0xFF64748b),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      const Text(
-                                        '07/2014 - 07/2018',
+                                      Text(
+                                        'Computer Science',
                                         style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF64748b),
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xFF475569),
                                         ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: isWeb ? 8 : 6),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.location_on_outlined,
+                                            size: isWeb ? 16 : 14,
+                                            color: const Color(0xFF64748b),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              'Rajasthan Technical University, India',
+                                              style: TextStyle(
+                                                fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                                                color: const Color(0xFF64748b),
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.calendar_today_outlined,
+                                            size: isWeb ? 16 : 14,
+                                            color: const Color(0xFF64748b),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            '07/2014 - 07/2018',
+                                            style: TextStyle(
+                                              fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                                              color: const Color(0xFF64748b),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ],
+                              )
+                            : Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(isWeb ? 16 : 12),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF60a5fa).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Icon(
+                                      Icons.school,
+                                      size: isWeb ? 32 : 28,
+                                      color: const Color(0xFF1976d2),
+                                    ),
+                                  ),
+                                  SizedBox(width: isWeb ? 20 : 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Bachelor of Technology (B.Tech)',
+                                          style: TextStyle(
+                                            fontSize: isWeb ? 18 : 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color(0xFF1976d2),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Computer Science',
+                                          style: TextStyle(
+                                            fontSize: isWeb ? 16 : 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xFF475569),
+                                          ),
+                                        ),
+                                        SizedBox(height: isWeb ? 8 : 6),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on_outlined,
+                                              size: isWeb ? 16 : 14,
+                                              color: const Color(0xFF64748b),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Flexible(
+                                              child: Text(
+                                                'Rajasthan Technical University, India',
+                                                style: TextStyle(
+                                                  fontSize: isWeb ? 14 : 12,
+                                                  color: const Color(0xFF64748b),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.calendar_today_outlined,
+                                              size: isWeb ? 16 : 14,
+                                              color: const Color(0xFF64748b),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              '07/2014 - 07/2018',
+                                              style: TextStyle(
+                                                fontSize: isWeb ? 14 : 12,
+                                                color: const Color(0xFF64748b),
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                   );
@@ -1005,66 +1093,74 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildLanguageCard(String language, String proficiency, IconData icon, int delay) {
-    return TweenAnimationBuilder<double>(
-      duration: Duration(milliseconds: 800 + delay),
-      tween: Tween(begin: 0.0, end: 1.0),
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFfef3c7), Color(0xFFfde68a)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final parentWidth = MediaQuery.of(context).size.width;
+        final isWeb = parentWidth > 1200;
+        final isTablet = parentWidth > 768 && parentWidth <= 1200;
+        
+        return TweenAnimationBuilder<double>(
+          duration: Duration(milliseconds: 800 + delay),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: Container(
+                padding: EdgeInsets.all(isWeb ? 20 : (isTablet ? 16 : 14)),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFfef3c7), Color(0xFFfde68a)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFf59e0b).withOpacity(0.3)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFf59e0b).withOpacity(0.2),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(isWeb ? 12 : (isTablet ? 10 : 8)),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf59e0b).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: isWeb ? 28 : (isTablet ? 24 : 20),
+                        color: const Color(0xFFd97706),
+                      ),
+                    ),
+                    SizedBox(height: isWeb ? 12 : 8),
+                    Text(
+                      language,
+                      style: TextStyle(
+                        fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFd97706),
+                      ),
+                    ),
+                    SizedBox(height: isWeb ? 4 : 2),
+                    Text(
+                      proficiency,
+                      style: TextStyle(
+                        fontSize: isWeb ? 13 : (isTablet ? 12 : 11),
+                        color: const Color(0xFF92400e),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFf59e0b).withOpacity(0.3)),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFf59e0b).withOpacity(0.2),
-                  blurRadius: 15,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFf59e0b).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    icon,
-                    size: 28,
-                    color: const Color(0xFFd97706),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  language,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFd97706),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  proficiency,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF92400e),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
+            );
+          },
         );
       },
     );
