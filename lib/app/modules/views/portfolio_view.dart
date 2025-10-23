@@ -1357,7 +1357,7 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
             ),
-          ],
+          ]
         );
       },
     );
@@ -1659,7 +1659,7 @@ class _PortfolioViewState extends State<PortfolioView>
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          if (project['url'] != null) ..[
+          if (project['url'] != null) ...[
             const SizedBox(height: 6),
             InkWell(
               onTap: () => _launchUrl(project['url']),
