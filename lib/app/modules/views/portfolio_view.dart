@@ -51,6 +51,8 @@ class _PortfolioViewState extends State<PortfolioView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0f172a),
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(),
       body: SingleChildScrollView(
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -70,6 +72,122 @@ class _PortfolioViewState extends State<PortfolioView>
         ),
       ),
     );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: const Color(0xFF1e293b),
+      elevation: 0,
+      title: TweenAnimationBuilder<double>(
+        duration: const Duration(milliseconds: 800),
+        tween: Tween(begin: 0.0, end: 1.0),
+        builder: (context, value, child) {
+          return Opacity(
+            opacity: value,
+            child: const Text(
+              'Shivam Agrawal',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          );
+        },
+      ),
+      actions: [
+        TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: IconButton(
+                icon: const Icon(Icons.download, color: Colors.white),
+                onPressed: () {},
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      backgroundColor: const Color(0xFF1e293b),
+      child: Column(
+        children: [
+          TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 800),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (context, value, child) {
+              return Transform.translate(
+                offset: Offset(-50 * (1 - value), 0),
+                child: Opacity(
+                  opacity: value,
+                  child: const DrawerHeader(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.person, size: 30, color: Color(0xFF60a5fa)),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Portfolio Menu',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          ..._buildMenuItems(),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildMenuItems() {
+    final items = [
+      {'icon': Icons.person, 'title': 'About', 'delay': 0},
+      {'icon': Icons.code, 'title': 'Skills', 'delay': 100},
+      {'icon': Icons.work, 'title': 'Experience', 'delay': 200},
+      {'icon': Icons.folder, 'title': 'Projects', 'delay': 300},
+      {'icon': Icons.contact_mail, 'title': 'Contact', 'delay': 400},
+    ];
+
+    return items.map((item) {
+      return TweenAnimationBuilder<double>(
+        duration: Duration(milliseconds: 600 + (item['delay'] as int)),
+        tween: Tween(begin: 0.0, end: 1.0),
+        builder: (context, value, child) {
+          return Transform.translate(
+            offset: Offset(-30 * (1 - value), 0),
+            child: Opacity(
+              opacity: value,
+              child: ListTile(
+                leading: Icon(
+                  item['icon'] as IconData,
+                  color: const Color(0xFF60a5fa),
+                ),
+                title: Text(
+                  item['title'] as String,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onTap: () => Navigator.pop(context),
+              ),
+            ),
+          );
+        },
+      );
+    }).toList();
   }
 
   Widget _buildHeader() {
@@ -429,25 +547,18 @@ class _PortfolioViewState extends State<PortfolioView>
           ),
           const SizedBox(height: 30),
           _buildAnimatedExperienceCard(
-            'Senior Application Developer',
-            'Tech Solutions Ltd',
-            'Jan 2022 - Present',
-            'Lead mobile app development using Kotlin, Flutter, MVVM, and Firebase',
+            'Application Development Team Lead',
+            'Appentus Technologies',
+            'Nov 2019 - Oct 2025',
+            'A results-oriented Senior Team Lead – Android & Flutter Developer with over 5 years of experience designing, developing, and deploying scalable mobile applications. Skilled in Kotlin, Java, and Flutter, with hands-on expertise in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Experienced in leading and mentoring development teams, managing project timelines, and collaborating with designers, product managers, and backend teams to deliver robust and high-performance apps.',
             0,
           ),
           _buildAnimatedExperienceCard(
-            'Application Developer',
-            'Mobile Innovations',
-            'Jun 2020 - Dec 2021',
-            'Developed cross-platform apps with Dart, REST APIs, and Play Store deployment',
+            'Android Developer',
+            'iSkylar Technologies',
+            'Mar 2019 - Nov 2019',
+            'Worked as an Android Developer, focusing on learning core Android development concepts and building small-scale applications using Java. Developed and maintained 2 Android projects, gaining hands-on experience in UI design, activity lifecycle management, and API integration. Collaborated with senior developers to understand best practices in mobile app development, debugging, and version control using Git.',
             200,
-          ),
-          _buildAnimatedExperienceCard(
-            'Junior Application Developer',
-            'Digital StartUp',
-            'Jan 2018 - May 2020',
-            'Built Android applications using Java, Android SDK, and modern UI/UX patterns',
-            400,
           ),
         ],
       ),
