@@ -208,11 +208,7 @@ class _PortfolioViewState extends State<PortfolioView>
               child: Container(
                 padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF1e293b), Color(0xFF334155)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: Color(0xFF1e293b),
                 ),
                 child: Column(
                   children: [
@@ -223,9 +219,9 @@ class _PortfolioViewState extends State<PortfolioView>
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF60a5fa).withOpacity(0.3),
-                              blurRadius: 20,
-                              spreadRadius: 5,
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
@@ -305,16 +301,20 @@ class _PortfolioViewState extends State<PortfolioView>
                         ],
                       ),
                     SizedBox(height: isWeb ? 20 : 15),
-                    Wrap(
-                      spacing: isWeb ? 10 : 8,
-                      runSpacing: 8,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        _buildAnimatedSkillChip('Kotlin', 0),
-                        _buildAnimatedSkillChip('Flutter', 200),
-                        _buildAnimatedSkillChip('Android', 400),
-                        _buildAnimatedSkillChip('Firebase', 600),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF334155).withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        'Kotlin • Flutter • Android • Firebase',
+                        style: TextStyle(
+                          fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                          color: const Color(0xFF94a3b8),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -1096,7 +1096,6 @@ class _PortfolioViewState extends State<PortfolioView>
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
-          color: const Color(0xFF1e293b),
           child: Column(
             children: [
               Text(
@@ -1112,190 +1111,81 @@ class _PortfolioViewState extends State<PortfolioView>
                 duration: const Duration(milliseconds: 800),
                 tween: Tween(begin: 0.0, end: 1.0),
                 builder: (context, value, child) {
-                  return Transform.translate(
-                    offset: Offset(30 * (1 - value), 0),
-                    child: Opacity(
-                      opacity: value,
-                      child: Container(
-                        padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFf8fafc), Color(0xFFe2e8f0)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF60a5fa).withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
+                  return Transform.scale(
+                    scale: value,
+                    child: Container(
+                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF0f172a), Color(0xFF1e293b)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child: constraints.maxWidth <= 600
-                            ? Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(isWeb ? 16 : 12),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF60a5fa).withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Icon(
-                                      Icons.school,
-                                      size: isWeb ? 32 : (isTablet ? 28 : 24),
-                                      color: const Color(0xFF1976d2),
-                                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF60a5fa).withOpacity(0.2),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '🎓',
+                            style: TextStyle(fontSize: isWeb ? 50 : (isTablet ? 45 : 40)),
+                          ),
+                          SizedBox(height: isWeb ? 16 : 12),
+                          Text(
+                            'Bachelor of Technology (B.Tech)',
+                            style: TextStyle(
+                              fontSize: isWeb ? 22 : (isTablet ? 20 : 18),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: isWeb ? 8 : 6),
+                          Text(
+                            'Computer Science Engineering',
+                            style: TextStyle(
+                              fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                              color: const Color(0xFF94a3b8),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: isWeb ? 16 : 12),
+                          Container(
+                            width: double.infinity,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF334155),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: FractionallySizedBox(
+                              alignment: Alignment.centerLeft,
+                              widthFactor: 0.85,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF10b981), Color(0xFF059669)],
                                   ),
-                                  SizedBox(height: isWeb ? 16 : 12),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Bachelor of Technology (B.Tech)',
-                                        style: TextStyle(
-                                          fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF1976d2),
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      Text(
-                                        'Computer Science',
-                                        style: TextStyle(
-                                          fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xFF475569),
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(height: isWeb ? 8 : 6),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            size: isWeb ? 16 : 14,
-                                            color: const Color(0xFF64748b),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Flexible(
-                                            child: Text(
-                                              'Rajasthan Technical University, India',
-                                              style: TextStyle(
-                                                fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
-                                                color: const Color(0xFF64748b),
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today_outlined,
-                                            size: isWeb ? 16 : 14,
-                                            color: const Color(0xFF64748b),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            '07/2014 - 07/2018',
-                                            style: TextStyle(
-                                              fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
-                                              color: const Color(0xFF64748b),
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(isWeb ? 16 : 12),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF60a5fa).withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Icon(
-                                      Icons.school,
-                                      size: isWeb ? 32 : 28,
-                                      color: const Color(0xFF1976d2),
-                                    ),
-                                  ),
-                                  SizedBox(width: isWeb ? 20 : 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Bachelor of Technology (B.Tech)',
-                                          style: TextStyle(
-                                            fontSize: isWeb ? 18 : 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF1976d2),
-                                          ),
-                                        ),
-                                        Text(
-                                          'Computer Science',
-                                          style: TextStyle(
-                                            fontSize: isWeb ? 16 : 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xFF475569),
-                                          ),
-                                        ),
-                                        SizedBox(height: isWeb ? 8 : 6),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              size: isWeb ? 16 : 14,
-                                              color: const Color(0xFF64748b),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Flexible(
-                                              child: Text(
-                                                'Rajasthan Technical University, India',
-                                                style: TextStyle(
-                                                  fontSize: isWeb ? 14 : 12,
-                                                  color: const Color(0xFF64748b),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_today_outlined,
-                                              size: isWeb ? 16 : 14,
-                                              color: const Color(0xFF64748b),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              '07/2014 - 07/2018',
-                                              style: TextStyle(
-                                                fontSize: isWeb ? 14 : 12,
-                                                color: const Color(0xFF64748b),
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
                               ),
+                            ),
+                          ),
+                          SizedBox(height: isWeb ? 16 : 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _buildEducationDetail(Icons.location_on, 'Rajasthan Technical University', isWeb, isTablet),
+                              _buildEducationDetail(Icons.calendar_today, '2014 - 2018', isWeb, isTablet),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -1305,6 +1195,27 @@ class _PortfolioViewState extends State<PortfolioView>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildEducationDetail(IconData icon, String text, bool isWeb, bool isTablet) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          size: isWeb ? 16 : 14,
+          color: const Color(0xFF60a5fa),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: isWeb ? 12 : (isTablet ? 11 : 10),
+            color: const Color(0xFF94a3b8),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1556,11 +1467,18 @@ class _PortfolioViewState extends State<PortfolioView>
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
-          color: const Color(0xFF0f172a),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0f172a),
+            image: DecorationImage(
+              image: NetworkImage('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23334155" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>'),
+              repeat: ImageRepeat.repeat,
+              opacity: 0.4,
+            ),
+          ),
           child: Column(
             children: [
               Text(
-                'Featured Projects',
+                'Projects',
                 style: TextStyle(
                   fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
                   fontWeight: FontWeight.bold,
@@ -1568,27 +1486,25 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              if (isMobile)
-                Column(
-                  children: [
-                    _buildAnimatedProjectCard('E-Commerce App', 'Kotlin + MVVM + Room', Icons.shopping_cart, 0),
-                    const SizedBox(height: 20),
-                    _buildAnimatedProjectCard('Chat App', 'Flutter + Firebase', Icons.chat, 200),
-                    const SizedBox(height: 20),
-                    _buildAnimatedProjectCard('Weather App', 'Android + Retrofit', Icons.wb_sunny, 400),
-                  ],
-                )
-              else
-                Wrap(
-                  spacing: isWeb ? 20 : 15,
-                  runSpacing: isWeb ? 20 : 15,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    _buildAnimatedProjectCard('E-Commerce App', 'Kotlin + MVVM + Room', Icons.shopping_cart, 0),
-                    _buildAnimatedProjectCard('Chat App', 'Flutter + Firebase', Icons.chat, 200),
-                    _buildAnimatedProjectCard('Weather App', 'Android + Retrofit', Icons.wb_sunny, 400),
-                  ],
-                ),
+              _buildProjectCategory('🟩 Featured Applications', 'Available on Google Play Store', [
+                {'name': 'Mars', 'desc': 'Safety & Inspection App', 'icon': Icons.security},
+                {'name': 'Spray', 'desc': 'Location & Mapping Utility', 'icon': Icons.map},
+                {'name': 'GeoPhotos', 'desc': 'Image Location Tagging', 'icon': Icons.photo_camera},
+                {'name': 'SWM', 'desc': 'Utility Management System', 'icon': Icons.business},
+                {'name': 'IDF', 'desc': 'Social Media Platform', 'icon': Icons.chat_bubble},
+              ], 0),
+              const SizedBox(height: 30),
+              _buildProjectCategory('🟦 Government & Enterprise', 'Large-scale solutions', [
+                {'name': 'JVVNL Agri', 'desc': 'Agricultural Management', 'icon': Icons.agriculture},
+                {'name': 'NDFDC', 'desc': 'Development Corporation', 'icon': Icons.account_balance},
+                {'name': 'JSCL Parking', 'desc': 'Smart Parking System', 'icon': Icons.local_parking},
+              ], 200),
+              const SizedBox(height: 30),
+              _buildProjectCategory('🟨 International Projects', 'Global client solutions', [
+                {'name': 'Intelux', 'desc': 'IoT Lighting Control', 'icon': Icons.lightbulb},
+              ], 400),
+              const SizedBox(height: 30),
+              _buildProjectSummary(),
             ],
           ),
         );
@@ -1596,61 +1512,201 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedProjectCard(String title, String tech, IconData icon, int delay) {
+  Widget _buildProjectCategory(String title, String subtitle, List<Map<String, dynamic>> projects, int delay) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final parentWidth = MediaQuery.of(context).size.width;
-        final isWeb = parentWidth > 1200;
-        final isTablet = parentWidth > 768 && parentWidth <= 1200;
-        final isMobile = parentWidth <= 768;
-
-        final cardWidth = isMobile ? double.infinity : (isTablet ? 180.0 : 200.0);
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
 
         return TweenAnimationBuilder<double>(
-          duration: Duration(milliseconds: 600 + delay),
+          duration: Duration(milliseconds: 800 + delay),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.translate(
+              offset: Offset(30 * (1 - value), 0),
+              child: Opacity(
+                opacity: value,
+                child: Container(
+                  padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1e293b).withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFF475569).withOpacity(0.4)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                          color: const Color(0xFF94a3b8),
+                        ),
+                      ),
+                      SizedBox(height: isWeb ? 16 : 12),
+                      isMobile
+                        ? Column(
+                            children: projects.map((project) => 
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: _buildProjectItem(project, isWeb, isTablet, isMobile),
+                              )
+                            ).toList(),
+                          )
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: isWeb ? 3 : 2,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: isWeb ? 2.5 : 2.2,
+                            ),
+                            itemCount: projects.length,
+                            itemBuilder: (context, index) => _buildProjectItem(projects[index], isWeb, isTablet, isMobile),
+                          ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildProjectItem(Map<String, dynamic> project, bool isWeb, bool isTablet, bool isMobile) {
+    return Container(
+      padding: EdgeInsets.all(isWeb ? 16 : (isTablet ? 14 : 12)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF334155).withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF64748b).withOpacity(0.4),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              project['icon'],
+              size: isWeb ? 20 : 16,
+              color: const Color(0xFF94a3b8),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  project['name'],
+                  style: TextStyle(
+                    fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  project['desc'],
+                  style: TextStyle(
+                    fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
+                    color: const Color(0xFF94a3b8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProjectSummary() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+
+        return TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
           tween: Tween(begin: 0.0, end: 1.0),
           builder: (context, value, child) {
             return Transform.scale(
               scale: value,
               child: Container(
-                width: isMobile ? null : cardWidth,
-                constraints: isMobile ? const BoxConstraints(maxWidth: 300) : null,
-                padding: EdgeInsets.all(isWeb ? 20 : (isTablet ? 16 : 14)),
+                padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0f172a),
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFF1e293b),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF475569).withOpacity(0.5)),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF60a5fa).withOpacity(0.2),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    Icon(
-                      icon,
-                      size: isWeb ? 40 : (isTablet ? 35 : 30),
-                      color: const Color(0xFF60a5fa),
-                    ),
-                    SizedBox(height: isWeb ? 15 : 10),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.check_circle,
+                        size: isWeb ? 32 : (isTablet ? 28 : 24),
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    Text(
-                      tech,
-                      style: TextStyle(
-                        fontSize: isWeb ? 12 : (isTablet ? 11 : 10),
-                        color: const Color(0xFF94a3b8),
+                    SizedBox(width: isWeb ? 20 : 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '✅ Summary',
+                            style: TextStyle(
+                              fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Developed 10+ production-ready applications across commercial, government, and international domains with Play Store deployment.',
+                            style: TextStyle(
+                              fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                              color: Colors.white.withOpacity(0.9),
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -1661,6 +1717,8 @@ class _PortfolioViewState extends State<PortfolioView>
       },
     );
   }
+
+
 }
 
 class _FlipCard extends StatefulWidget {
