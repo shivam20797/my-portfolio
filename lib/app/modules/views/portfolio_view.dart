@@ -1814,39 +1814,42 @@ class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderSta
                               color: const Color(0xFF94a3b8),
                             ),
                           ),
-                          if (widget.project['url'] != null) ..[
-                            const SizedBox(height: 8),
-                            InkWell(
-                              onTap: () => widget.onLaunch(widget.project['url']),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF60a5fa).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.play_arrow,
-                                      size: 12,
-                                      color: const Color(0xFF60a5fa),
+                          if (widget.project['url'] != null)
+                            Column(
+                              children: [
+                                const SizedBox(height: 8),
+                                InkWell(
+                                  onTap: () => widget.onLaunch(widget.project['url']),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF60a5fa).withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
                                     ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Play Store',
-                                      style: TextStyle(
-                                        fontSize: widget.isWeb ? 9 : 8,
-                                        color: const Color(0xFF60a5fa),
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.play_arrow,
+                                          size: 12,
+                                          color: const Color(0xFF60a5fa),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'Play Store',
+                                          style: TextStyle(
+                                            fontSize: widget.isWeb ? 9 : 8,
+                                            color: const Color(0xFF60a5fa),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
                         ],
                       ),
                     ),
