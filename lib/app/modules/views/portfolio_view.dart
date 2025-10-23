@@ -244,10 +244,20 @@ class _PortfolioViewState extends State<PortfolioView>
                         child: CircleAvatar(
                           radius: isWeb ? 60 : (isTablet ? 50 : 40),
                           backgroundColor: const Color(0xFF60a5fa),
-                          child: Icon(
-                            Icons.person,
-                            size: isWeb ? 60 : (isTablet ? 50 : 40),
-                            color: Colors.white,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'web/icons/Icon-192.png',
+                              width: isWeb ? 120 : (isTablet ? 100 : 80),
+                              height: isWeb ? 120 : (isTablet ? 100 : 80),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.flutter_dash,
+                                  size: isWeb ? 60 : (isTablet ? 50 : 40),
+                                  color: Colors.white,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

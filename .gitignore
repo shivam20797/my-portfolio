@@ -46,3 +46,32 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Sensitive files - DO NOT COMMIT TO PUBLIC REPO
+*.keystore
+*.jks
+key.properties
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
+.env
+.env.local
+.env.production
+secrets.yaml
+
+# Local configuration files
+android/local.properties
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# API Keys and sensitive data
+lib/config/api_keys.dart
+lib/config/secrets.dart
+
+# Build outputs
+/android/app/outputs/
+/ios/build/
+/web/build/
+/linux/build/
+/macos/build/
+/windows/build/
