@@ -8,14 +8,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+
+      # ✅ Use specific Flutter version (fixes "Unable to determine Flutter version")
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
-      - run: flutter pub get
-      - run: flutter build web --release
-      - uses: peaceiris/actions-gh-pages@v3
+          flutter-version: '3.24.3' # <-- set this explicitly
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Web
+        run: flutter build web --release
+
+      # ✅ Deploy built files to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
