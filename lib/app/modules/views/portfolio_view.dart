@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lottie/lottie.dart';
 
 class PortfolioView extends StatefulWidget {
   const PortfolioView({super.key});
@@ -259,26 +260,24 @@ class _PortfolioViewState extends State<PortfolioView>
                           builder: (context, animValue, child) {
                             return Transform.rotate(
                               angle: animValue * 0.1,
-                              child: CircleAvatar(
-                                radius: isWeb ? 60 : (isTablet ? 50 : 40),
-                                backgroundColor: const Color(0xFF60a5fa),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        const Color(0xFF60a5fa),
-                                        const Color(0xFF3b82f6),
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
+                              child: Container(
+                                width: isWeb ? 120 : (isTablet ? 100 : 80),
+                                height: isWeb ? 120 : (isTablet ? 100 : 80),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      const Color(0xFF60a5fa),
+                                      const Color(0xFF3b82f6),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                  child: Icon(
-                                    Icons.smart_toy,
-                                    size: isWeb ? 60 : (isTablet ? 50 : 40),
-                                    color: Colors.white,
-                                  ),
+                                ),
+                                child: Lottie.asset(
+                                  'assets/lottie/profile.json',
+                                  fit: BoxFit.contain,
+                                  repeat: true,
                                 ),
                               ),
                             );
@@ -474,23 +473,21 @@ class _PortfolioViewState extends State<PortfolioView>
                                   ),
                                 ],
                               ),
-                              child: CircleAvatar(
-                                radius: isWeb ? 50 : (isTablet ? 40 : 35),
-                                backgroundColor: const Color(0xFF60a5fa),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: const LinearGradient(
-                                      colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
+                              child: Container(
+                                width: isWeb ? 100 : (isTablet ? 80 : 70),
+                                height: isWeb ? 100 : (isTablet ? 80 : 70),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                  child: Icon(
-                                    Icons.smart_toy,
-                                    size: isWeb ? 50 : (isTablet ? 40 : 35),
-                                    color: Colors.white,
-                                  ),
+                                ),
+                                child: Lottie.asset(
+                                  'assets/lottie/profile.json',
+                                  fit: BoxFit.contain,
+                                  repeat: true,
                                 ),
                               ),
                             ),
@@ -811,13 +808,27 @@ class _PortfolioViewState extends State<PortfolioView>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Skill Categories',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF60a5fa),
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Lottie.asset(
+                              'assets/lottie/coding.json',
+                              fit: BoxFit.contain,
+                              repeat: true,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Skill Categories',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF60a5fa),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 20),
                       _buildSkillCategory('Mobile Development', Icons.phone_android, ['Kotlin', 'Java', 'Dart']),
