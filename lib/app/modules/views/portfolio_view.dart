@@ -17,6 +17,7 @@ class _PortfolioViewState extends State<PortfolioView>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late ScrollController _scrollController;
+  int _currentTabIndex = 0;
 
   final List<GlobalKey> _sectionKeys = [
     GlobalKey(),
@@ -32,6 +33,7 @@ class _PortfolioViewState extends State<PortfolioView>
     super.initState();
     _tabController = TabController(length: 7, vsync: this);
     _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
@@ -58,8 +60,34 @@ class _PortfolioViewState extends State<PortfolioView>
     _fadeController.dispose();
     _slideController.dispose();
     _tabController.dispose();
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    final scrollOffset = _scrollController.offset;
+    int newIndex = 0;
+    
+    for (int i = 0; i < _sectionKeys.length; i++) {
+      final context = _sectionKeys[i].currentContext;
+      if (context != null) {
+        final box = context.findRenderObject() as RenderBox?;
+        if (box != null) {
+          final position = box.localToGlobal(Offset.zero).dy;
+          if (position <= 200) {
+            newIndex = i;
+          }
+        }
+      }
+    }
+    
+    if (newIndex != _currentTabIndex) {
+      setState(() {
+        _currentTabIndex = newIndex;
+        _tabController.animateTo(newIndex);
+      });
+    }
   }
 
   void _scrollToSection(int index) {
@@ -270,7 +298,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     ),
                     SizedBox(height: isWeb ? 10 : 8),
                     Text(
-                      'Application Developer | Mobile Expert',
+                      'Application Developer',
                       style: TextStyle(
                         fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
                         color: const Color(0xFF94a3b8),
@@ -394,23 +422,7 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              if (isMobile)
-                Column(
-                  children: [
-                    _buildProfileSidebar(),
-                    const SizedBox(height: 20),
-                    _buildAboutContent(),
-                  ],
-                )
-              else
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: isWeb ? 1 : 2, child: _buildProfileSidebar()),
-                    SizedBox(width: isWeb ? 30 : 20),
-                    Expanded(flex: isWeb ? 2 : 3, child: _buildAboutContent()),
-                  ],
-                ),
+              _buildAboutContent(),
             ],
           ),
         );
@@ -1166,7 +1178,7 @@ class _PortfolioViewState extends State<PortfolioView>
                             ),
                             child: FractionallySizedBox(
                               alignment: Alignment.centerLeft,
-                              widthFactor: 0.85,
+                              widthFactor: 1.0,
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
@@ -1487,21 +1499,21 @@ class _PortfolioViewState extends State<PortfolioView>
               ),
               SizedBox(height: isWeb ? 30 : 20),
               _buildProjectCategory('🟩 Featured Applications', 'Available on Google Play Store', [
-                {'name': 'Mars', 'desc': 'Safety & Inspection App', 'icon': Icons.security},
-                {'name': 'Spray', 'desc': 'Location & Mapping Utility', 'icon': Icons.map},
-                {'name': 'GeoPhotos', 'desc': 'Image Location Tagging', 'icon': Icons.photo_camera},
-                {'name': 'SWM', 'desc': 'Utility Management System', 'icon': Icons.business},
-                {'name': 'IDF', 'desc': 'Social Media Platform', 'icon': Icons.chat_bubble},
+                {'name': 'Mars', 'desc': 'Safety & Inspection App', 'icon': Icons.security, 'url': 'https://play.google.com/store/apps/details?id=com.iinorth.mars&hl=en_IN'},
+                {'name': 'iSpray', 'desc': 'Location & Mapping Utility', 'icon': Icons.map, 'url': 'https://play.google.com/store/apps/details?id=com.iinorth.spray&hl=en_IN'},
+                {'name': 'GeoPhotos', 'desc': 'Image Location Tagging', 'icon': Icons.photo_camera, 'url': 'https://play.google.com/store/apps/details?id=app.geophotos&hl=en_IN'},
+                {'name': 'Shubhashish WaterWise', 'desc': 'Utility Management System', 'icon': Icons.business, 'url': 'https://play.google.com/store/apps/details?id=app.swm&hl=en_IN'},
+                {'name': 'Hy U', 'desc': 'Social Media Platform', 'icon': Icons.chat_bubble, 'url': 'https://play.google.com/store/apps/details?id=idf.apton.hyu&hl=en_IN'},
               ], 0),
               const SizedBox(height: 30),
               _buildProjectCategory('🟦 Government & Enterprise', 'Large-scale solutions', [
-                {'name': 'JVVNL Agri', 'desc': 'Agricultural Management', 'icon': Icons.agriculture},
+                {'name': 'Infra Verification', 'desc': 'Agricultural Management', 'icon': Icons.agriculture, 'url': 'https://play.google.com/store/apps/details?id=com.jvvnl.agri&hl=en_IN'},
                 {'name': 'NDFDC', 'desc': 'Development Corporation', 'icon': Icons.account_balance},
-                {'name': 'JSCL Parking', 'desc': 'Smart Parking System', 'icon': Icons.local_parking},
+                {'name': 'Parking JSCL', 'desc': 'Smart Parking System', 'icon': Icons.local_parking, 'url': 'https://play.google.com/store/apps/details?id=com.jscl.parking&hl=en_IN'},
               ], 200),
               const SizedBox(height: 30),
               _buildProjectCategory('🟨 International Projects', 'Global client solutions', [
-                {'name': 'Intelux', 'desc': 'IoT Lighting Control', 'icon': Icons.lightbulb},
+                {'name': 'IntElux', 'desc': 'IoT Lighting Control', 'icon': Icons.lightbulb, 'url': 'https://play.google.com/store/search?q=intelux&c=apps&hl=en_IN'},
               ], 400),
               const SizedBox(height: 30),
               _buildProjectSummary(),
@@ -1594,51 +1606,68 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildProjectItem(Map<String, dynamic> project, bool isWeb, bool isTablet, bool isMobile) {
-    return Container(
-      padding: EdgeInsets.all(isWeb ? 16 : (isTablet ? 14 : 12)),
-      decoration: BoxDecoration(
-        color: const Color(0xFF334155).withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF64748b).withOpacity(0.4),
-              borderRadius: BorderRadius.circular(8),
+    return InkWell(
+      onTap: project['url'] != null ? () => _launchUrl(project['url']) : null,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: EdgeInsets.all(isWeb ? 16 : (isTablet ? 14 : 12)),
+        decoration: BoxDecoration(
+          color: const Color(0xFF334155).withOpacity(0.5),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF64748b).withOpacity(0.4),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                project['icon'],
+                size: isWeb ? 20 : 16,
+                color: const Color(0xFF94a3b8),
+              ),
             ),
-            child: Icon(
-              project['icon'],
-              size: isWeb ? 20 : 16,
-              color: const Color(0xFF94a3b8),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  project['name'],
-                  style: TextStyle(
-                    fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          project['name'],
+                          style: TextStyle(
+                            fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
+                            fontWeight: FontWeight.bold,
+                            color: project['url'] != null ? const Color(0xFF60a5fa) : Colors.white,
+                            decoration: project['url'] != null ? TextDecoration.underline : null,
+                          ),
+                        ),
+                      ),
+                      if (project['url'] != null)
+                        Icon(
+                          Icons.open_in_new,
+                          size: 12,
+                          color: const Color(0xFF60a5fa),
+                        ),
+                    ],
                   ),
-                ),
-                Text(
-                  project['desc'],
-                  style: TextStyle(
-                    fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
-                    color: const Color(0xFF94a3b8),
+                  Text(
+                    project['desc'],
+                    style: TextStyle(
+                      fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
+                      color: const Color(0xFF94a3b8),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
