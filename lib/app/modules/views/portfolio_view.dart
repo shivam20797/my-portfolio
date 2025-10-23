@@ -30,7 +30,7 @@ class _PortfolioViewState extends State<PortfolioView>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 7, vsync: this);
     _scrollController = ScrollController();
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 1000),
@@ -99,9 +99,10 @@ class _PortfolioViewState extends State<PortfolioView>
                     Container(key: _sectionKeys[0], child: _buildAbout()),
                     Container(key: _sectionKeys[1], child: _buildSkills()),
                     Container(key: _sectionKeys[2], child: _buildExperience()),
-                    Container(key: _sectionKeys[3], child: _buildEducation()),
-                    Container(key: _sectionKeys[4], child: _buildLanguages()),
-                    Container(key: _sectionKeys[5], child: _buildProjects()),
+                    Container(key: _sectionKeys[3], child: _buildProjects()),
+                    Container(key: _sectionKeys[4], child: _buildEducation()),
+                    Container(key: _sectionKeys[5], child: _buildLanguages()),
+                    _buildContact(),
                   ],
                 ),
               ),
@@ -146,26 +147,13 @@ class _PortfolioViewState extends State<PortfolioView>
           Tab(text: 'About'),
           Tab(text: 'Skills'),
           Tab(text: 'Experience'),
+          Tab(text: 'Projects'),
           Tab(text: 'Education'),
           Tab(text: 'Languages'),
-          Tab(text: 'Projects'),
+          Tab(text: 'Contact'),
         ],
       ),
-      actions: [
-        TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 1000),
-          tween: Tween(begin: 0.0, end: 1.0),
-          builder: (context, value, child) {
-            return Transform.scale(
-              scale: value,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Get.back(),
-              ),
-            );
-          },
-        ),
-      ],
+
     );
   }
 
@@ -241,24 +229,36 @@ class _PortfolioViewState extends State<PortfolioView>
                             ),
                           ],
                         ),
-                        child: CircleAvatar(
-                          radius: isWeb ? 60 : (isTablet ? 50 : 40),
-                          backgroundColor: const Color(0xFF60a5fa),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'web/icons/Icon-192.png',
-                              width: isWeb ? 120 : (isTablet ? 100 : 80),
-                              height: isWeb ? 120 : (isTablet ? 100 : 80),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Icon(
-                                  Icons.flutter_dash,
-                                  size: isWeb ? 60 : (isTablet ? 50 : 40),
-                                  color: Colors.white,
-                                );
-                              },
-                            ),
-                          ),
+                        child: TweenAnimationBuilder<double>(
+                          duration: const Duration(milliseconds: 2000),
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          builder: (context, animValue, child) {
+                            return Transform.rotate(
+                              angle: animValue * 0.1,
+                              child: CircleAvatar(
+                                radius: isWeb ? 60 : (isTablet ? 50 : 40),
+                                backgroundColor: const Color(0xFF60a5fa),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        const Color(0xFF60a5fa),
+                                        const Color(0xFF3b82f6),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.smart_toy,
+                                    size: isWeb ? 60 : (isTablet ? 50 : 40),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -381,55 +381,147 @@ class _PortfolioViewState extends State<PortfolioView>
         final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          child: Column(
+            children: [
+              Text(
+                'About Me',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              if (isMobile)
+                Column(
+                  children: [
+                    _buildProfileSidebar(),
+                    const SizedBox(height: 20),
+                    _buildAboutContent(),
+                  ],
+                )
+              else
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: isWeb ? 1 : 2, child: _buildProfileSidebar()),
+                    SizedBox(width: isWeb ? 30 : 20),
+                    Expanded(flex: isWeb ? 2 : 3, child: _buildAboutContent()),
+                  ],
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildProfileSidebar() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = MediaQuery.of(context).size.width > 1200;
+        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
+        
         return TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 800),
           tween: Tween(begin: 0.0, end: 1.0),
           builder: (context, value, child) {
-            return Opacity(
-              opacity: value,
-              child: Container(
-                padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
-                child: Column(
-                  children: [
-                    Text(
-                      'About Me',
-                      style: TextStyle(
-                        fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF60a5fa),
-                      ),
+            return Transform.translate(
+              offset: Offset(-30 * (1 - value), 0),
+              child: Opacity(
+                opacity: value,
+                child: Container(
+                  padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF1e293b), Color(0xFF334155)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    SizedBox(height: isWeb ? 20 : 15),
-                    Text(
-                      'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
-                      style: TextStyle(
-                        fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
-                        color: const Color(0xFFf8fafc),
-                        height: 1.6,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF60a5fa).withOpacity(0.2),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: isWeb ? 30 : 20),
-                    if (isMobile)
-                      Column(
-                        children: [
-                          _buildAnimatedStatCard('6+', 'Years Experience', 0),
-                          const SizedBox(height: 15),
-                          _buildAnimatedStatCard('30+', 'Apps Delivered', 200),
-                          const SizedBox(height: 15),
-                          _buildAnimatedStatCard('15+', 'Technologies', 400),
-                        ],
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildAnimatedStatCard('6+', 'Years Experience', 0),
-                          _buildAnimatedStatCard('30+', 'Apps Delivered', 200),
-                          _buildAnimatedStatCard('15+', 'Technologies', 400),
-                        ],
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      TweenAnimationBuilder<double>(
+                        duration: const Duration(milliseconds: 2000),
+                        tween: Tween(begin: 0.0, end: 1.0),
+                        builder: (context, animValue, child) {
+                          return Transform.rotate(
+                            angle: animValue * 0.1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF60a5fa).withOpacity(0.4),
+                                    blurRadius: 25,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                radius: isWeb ? 50 : (isTablet ? 40 : 35),
+                                backgroundColor: const Color(0xFF60a5fa),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: const LinearGradient(
+                                      colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.smart_toy,
+                                    size: isWeb ? 50 : (isTablet ? 40 : 35),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                  ],
+                      SizedBox(height: isWeb ? 20 : 15),
+                      Text(
+                        'Shivam Agrawal',
+                        style: TextStyle(
+                          fontSize: isWeb ? 24 : (isTablet ? 20 : 18),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: isWeb ? 8 : 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF60a5fa).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Mobile App Developer',
+                          style: TextStyle(
+                            fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
+                            color: const Color(0xFF60a5fa),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: isWeb ? 20 : 15),
+                      _buildQuickStats(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -439,53 +531,238 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedStatCard(String number, String label, int delay) {
+  Widget _buildQuickStats() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = MediaQuery.of(context).size.width > 1200;
+        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
+        
+        return Column(
+          children: [
+            _buildStatRow(Icons.work_outline, '6+ Years', 'Experience', 0),
+            SizedBox(height: isWeb ? 12 : 8),
+            _buildStatRow(Icons.apps, '30+ Apps', 'Delivered', 200),
+            SizedBox(height: isWeb ? 12 : 8),
+            _buildStatRow(Icons.code, '15+ Tech', 'Stack', 400),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildStatRow(IconData icon, String number, String label, int delay) {
     return TweenAnimationBuilder<double>(
-      duration: Duration(milliseconds: 800 + delay),
+      duration: Duration(milliseconds: 600 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
       builder: (context, value, child) {
         return Transform.translate(
-          offset: Offset(0, 20 * (1 - value)),
+          offset: Offset(20 * (1 - value), 0),
           child: Opacity(
             opacity: value,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: const Color(0xFF1e293b),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF60a5fa).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    number,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF60a5fa),
-                    ),
+                  child: Icon(icon, size: 16, color: const Color(0xFF60a5fa)),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        number,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF94a3b8),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF94a3b8),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
       },
     );
   }
+
+  Widget _buildAboutContent() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = MediaQuery.of(context).size.width > 1200;
+        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
+        
+        return TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.translate(
+              offset: Offset(30 * (1 - value), 0),
+              child: Opacity(
+                opacity: value,
+                child: Container(
+                  padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFf8fafc), Color(0xFFe2e8f0)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.2)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF60a5fa).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.person_outline,
+                              color: Color(0xFF60a5fa),
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            'Professional Summary',
+                            style: TextStyle(
+                              fontSize: isWeb ? 20 : (isTablet ? 18 : 16),
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF1e293b),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: isWeb ? 20 : 15),
+                      Text(
+                        'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
+                        style: TextStyle(
+                          fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                          color: const Color(0xFF475569),
+                          height: 1.6,
+                        ),
+                      ),
+                      SizedBox(height: isWeb ? 20 : 15),
+                      Text(
+                        'Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
+                        style: TextStyle(
+                          fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                          color: const Color(0xFF475569),
+                          height: 1.6,
+                        ),
+                      ),
+                      SizedBox(height: isWeb ? 25 : 20),
+                      _buildSkillHighlights(),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildSkillHighlights() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = MediaQuery.of(context).size.width > 1200;
+        
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF10b981).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Icon(
+                    Icons.star_outline,
+                    color: Color(0xFF10b981),
+                    size: 16,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Core Expertise',
+                  style: TextStyle(
+                    fontSize: isWeb ? 16 : 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF1e293b),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildSkillChip('Kotlin'),
+                _buildSkillChip('Flutter'),
+                _buildSkillChip('Android'),
+                _buildSkillChip('MVVM'),
+                _buildSkillChip('Firebase'),
+                _buildSkillChip('REST APIs'),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSkillChip(String skill) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFF60a5fa).withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+      ),
+      child: Text(
+        skill,
+        style: const TextStyle(
+          fontSize: 12,
+          color: Color(0xFF60a5fa),
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+
 
   Widget _buildSkills() {
     return LayoutBuilder(
@@ -543,8 +820,6 @@ class _PortfolioViewState extends State<PortfolioView>
             opacity: value,
             child: Column(
               children: [
-                _buildModernContactCard(),
-                const SizedBox(height: 20),
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -1176,6 +1451,43 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
+  Widget _buildContact() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          color: const Color(0xFF0f172a),
+          child: Column(
+            children: [
+              Text(
+                'Get In Touch',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 800),
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: _buildModernContactCard(),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildProjects() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -1185,7 +1497,7 @@ class _PortfolioViewState extends State<PortfolioView>
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
-          color: const Color(0xFF1e293b),
+          color: const Color(0xFF0f172a),
           child: Column(
             children: [
               Text(
