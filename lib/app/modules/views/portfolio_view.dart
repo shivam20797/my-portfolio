@@ -305,28 +305,73 @@ class _PortfolioViewState extends State<PortfolioView>
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: isWeb ? 20 : 15),
-                    if (isMobile)
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        alignment: WrapAlignment.center,
+                    Container(
+                      padding: EdgeInsets.all(isWeb ? 20 : 16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            const Color(0xFF60a5fa).withOpacity(0.1),
+                            const Color(0xFF3b82f6).withOpacity(0.1),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: const Color(0xFF60a5fa).withOpacity(0.3),
+                        ),
+                      ),
+                      child: Column(
                         children: [
-                          _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                          _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                          _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                          _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
-                        ],
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                          _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                          _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                          _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 24,
+                                height: 24,
+                                child: Lottie.asset(
+                                  'assets/lottie/coding.json',
+                                  fit: BoxFit.contain,
+                                  repeat: true,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Get In Touch',
+                                style: TextStyle(
+                                  fontSize: isWeb ? 16 : 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: isWeb ? 12 : 10),
+                          if (isMobile)
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              alignment: WrapAlignment.center,
+                              children: [
+                                _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
+                                _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
+                                _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
+                                _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                              ],
+                            )
+                          else
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
+                                _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
+                                _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
+                                _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                              ],
+                            ),
                         ],
                       ),
+                    ),
                     SizedBox(height: isWeb ? 20 : 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -354,18 +399,31 @@ class _PortfolioViewState extends State<PortfolioView>
         return Transform.scale(
           scale: value,
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 6),
             child: InkWell(
               onTap: () => _launchUrl(url),
               borderRadius: BorderRadius.circular(25),
               child: Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.1),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF60a5fa),
+                      const Color(0xFF3b82f6),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF60a5fa).withOpacity(0.4),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                child: Icon(icon, color: Colors.white, size: 20),
+                child: Icon(icon, color: Colors.white, size: 18),
               ),
             ),
           ),
@@ -847,92 +905,7 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildModernContactCard() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFe0f2fe), Color(0xFFb3e5fc)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF60a5fa).withOpacity(0.15),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Icon(Icons.connect_without_contact, color: const Color(0xFF1976d2), size: 20),
-              const SizedBox(width: 8),
-              const Text(
-                'Get In Touch',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1976d2),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildModernContactItem(Icons.email_outlined, 'Email Me', 'mailto:shivamcsaiet316@gmail.com'),
-          _buildModernContactItem(Icons.phone_outlined, 'Call Me', 'tel:+919057448064'),
-          _buildModernContactItem(Icons.work_outline, 'LinkedIn', 'https://www.linkedin.com/in/shivam20797'),
-          _buildModernContactItem(Icons.language, 'Portfolio', 'https://shivam20797.github.io/web-app/'),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildModernContactItem(IconData icon, String text, String url) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      child: InkWell(
-        onTap: () => _launchUrl(url),
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.2)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF60a5fa).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, size: 16, color: const Color(0xFF1976d2)),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF1976d2),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Icon(Icons.arrow_forward_ios, size: 12, color: const Color(0xFF1976d2).withOpacity(0.6)),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildSkillCategory(String title, IconData icon, List<String> skills) {
     return Container(
@@ -1463,7 +1436,47 @@ class _PortfolioViewState extends State<PortfolioView>
                 builder: (context, value, child) {
                   return Transform.scale(
                     scale: value,
-                    child: _buildModernContactCard(),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF1e293b), Color(0xFF334155)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF60a5fa).withOpacity(0.15),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '📧 Let\'s Connect',
+                            style: TextStyle(
+                              fontSize: isWeb ? 20 : 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
+                              _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
+                              _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
+                              _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
               ),
