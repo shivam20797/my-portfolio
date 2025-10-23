@@ -86,7 +86,10 @@ class _PortfolioViewState extends State<PortfolioView>
             opacity: value,
             child: const Text(
               'Shivam Agrawal',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           );
         },
@@ -134,7 +137,11 @@ class _PortfolioViewState extends State<PortfolioView>
                         CircleAvatar(
                           radius: 30,
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.person, size: 30, color: Color(0xFF60a5fa)),
+                          child: Icon(
+                            Icons.person,
+                            size: 30,
+                            color: Color(0xFF60a5fa),
+                          ),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -246,10 +253,22 @@ class _PortfolioViewState extends State<PortfolioView>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildContactIcon(Icons.email, 'mailto:agarwalsatyam027@gmail.com', 0),
+                    _buildContactIcon(
+                      Icons.email,
+                      'mailto:agarwalsatyam027@gmail.com',
+                      0,
+                    ),
                     _buildContactIcon(Icons.phone, 'tel:+918058083031', 100),
-                    _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/satyam-a-a36b3217b', 200),
-                    _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                    _buildContactIcon(
+                      Icons.work,
+                      'https://www.linkedin.com/in/satyam-a-a36b3217b',
+                      200,
+                    ),
+                    _buildContactIcon(
+                      Icons.web,
+                      'https://shivam20797.github.io/web-app/',
+                      300,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -290,11 +309,7 @@ class _PortfolioViewState extends State<PortfolioView>
                   color: Colors.white.withOpacity(0.1),
                   border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                child: Icon(icon, color: Colors.white, size: 20),
               ),
             ),
           ),
@@ -542,7 +557,10 @@ class _PortfolioViewState extends State<PortfolioView>
                     decoration: BoxDecoration(
                       color: const Color(0xFF0f172a),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFF60a5fa), width: 1),
+                      border: Border.all(
+                        color: const Color(0xFF60a5fa),
+                        width: 1,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: const Color(0xFF60a5fa).withOpacity(0.2),
@@ -559,7 +577,11 @@ class _PortfolioViewState extends State<PortfolioView>
                           builder: (context, iconValue, child) {
                             return Transform.rotate(
                               angle: iconValue * 0.1,
-                              child: Icon(icon, size: 32, color: const Color(0xFF60a5fa)),
+                              child: Icon(
+                                icon,
+                                size: 32,
+                                color: const Color(0xFF60a5fa),
+                              ),
                             );
                           },
                         ),
@@ -771,7 +793,11 @@ class _PortfolioViewState extends State<PortfolioView>
                     builder: (context, pulseValue, child) {
                       return Transform.scale(
                         scale: 1.0 + 0.1 * (0.5 - (pulseValue * 2 - 1).abs()),
-                        child: Icon(icon, size: 40, color: const Color(0xFF60a5fa)),
+                        child: Icon(
+                          icon,
+                          size: 40,
+                          color: const Color(0xFF60a5fa),
+                        ),
                       );
                     },
                   ),
@@ -785,14 +811,15 @@ class _PortfolioViewState extends State<PortfolioView>
                     ),
                   ),
                   Text(
-                  tech,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF94a3b8),
+                    tech,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF94a3b8),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
