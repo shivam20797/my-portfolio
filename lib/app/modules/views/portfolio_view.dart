@@ -71,6 +71,13 @@ class _PortfolioViewState extends State<PortfolioView>
     }
   }
 
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,8 +199,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet =
-            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return TweenAnimationBuilder<double>(
@@ -263,52 +269,20 @@ class _PortfolioViewState extends State<PortfolioView>
                         runSpacing: 8,
                         alignment: WrapAlignment.center,
                         children: [
-                          _buildContactIcon(
-                            Icons.email,
-                            'mailto:shivamcsaiet316@gmail.com',
-                            0,
-                          ),
-                          _buildContactIcon(
-                            Icons.phone,
-                            'tel:+919057448064',
-                            100,
-                          ),
-                          _buildContactIcon(
-                            Icons.work,
-                            'https://www.linkedin.com/in/shivam20797',
-                            200,
-                          ),
-                          _buildContactIcon(
-                            Icons.web,
-                            'https://shivam20797.github.io/web-app/',
-                            300,
-                          ),
+                          _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
+                          _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
+                          _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
+                          _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
                         ],
                       )
                     else
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildContactIcon(
-                            Icons.email,
-                            'mailto:shivamcsaiet316@gmail.com',
-                            0,
-                          ),
-                          _buildContactIcon(
-                            Icons.phone,
-                            'tel:+919057448064',
-                            100,
-                          ),
-                          _buildContactIcon(
-                            Icons.work,
-                            'https://www.linkedin.com/in/shivam20797',
-                            200,
-                          ),
-                          _buildContactIcon(
-                            Icons.web,
-                            'https://shivam20797.github.io/web-app/',
-                            300,
-                          ),
+                          _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
+                          _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
+                          _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
+                          _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
                         ],
                       ),
                     SizedBox(height: isWeb ? 20 : 15),
@@ -386,8 +360,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet =
-            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return TweenAnimationBuilder<double>(
@@ -410,7 +383,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     ),
                     SizedBox(height: isWeb ? 20 : 15),
                     Text(
-                      'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design. Recognized for strong skills in app development and a proven ability to meet project deadlines effectively.',
+                      'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
                       style: TextStyle(
                         fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
                         color: const Color(0xFFf8fafc),
@@ -500,8 +473,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet =
-            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -576,29 +548,11 @@ class _PortfolioViewState extends State<PortfolioView>
                         ),
                       ),
                       const SizedBox(height: 20),
-                      _buildSkillCategory(
-                        'Mobile Development',
-                        Icons.phone_android,
-                        ['Kotlin', 'Java', 'Dart', 'Android SDK'],
-                      ),
-                      _buildSkillCategory('Architecture', Icons.architecture, [
-                        'MVVM',
-                        'Clean Architecture',
-                      ]),
-                      _buildSkillCategory('Backend & APIs', Icons.api, [
-                        'Retrofit',
-                        'Firebase',
-                        'REST APIs',
-                      ]),
-                      _buildSkillCategory('Database', Icons.storage, [
-                        'Room',
-                        'SQLite',
-                      ]),
-                      _buildSkillCategory('Tools & Services', Icons.build, [
-                        'Android Studio',
-                        'Git',
-                        'OneSignal',
-                      ]),
+                      _buildSkillCategory('Mobile Development', Icons.phone_android, ['Kotlin', 'Java', 'Dart', 'Android SDK']),
+                      _buildSkillCategory('Architecture', Icons.architecture, ['MVVM', 'Clean Architecture']),
+                      _buildSkillCategory('Backend & APIs', Icons.api, ['Retrofit', 'Firebase', 'REST APIs']),
+                      _buildSkillCategory('Database', Icons.storage, ['Room', 'SQLite']),
+                      _buildSkillCategory('Tools & Services', Icons.build, ['Android Studio', 'Git', 'OneSignal']),
                     ],
                   ),
                 ),
@@ -639,26 +593,10 @@ class _PortfolioViewState extends State<PortfolioView>
             ),
           ),
           const SizedBox(height: 16),
-          _buildModernContactItem(
-            Icons.email_rounded,
-            'shivamcsaiet316@gmail.com',
-            'mailto:shivamcsaiet316@gmail.com',
-          ),
-          _buildModernContactItem(
-            Icons.phone_rounded,
-            '+91 9057448064',
-            'tel:+919057448064',
-          ),
-          _buildModernContactItem(
-            Icons.work_rounded,
-            'LinkedIn Profile',
-            'https://www.linkedin.com/in/shivam20797',
-          ),
-          _buildModernContactItem(
-            Icons.web_rounded,
-            'Portfolio Website',
-            'https://shivam20797.github.io/web-app/',
-          ),
+          _buildModernContactItem(Icons.email_rounded, 'shivamcsaiet316@gmail.com', 'mailto:shivamcsaiet316@gmail.com'),
+          _buildModernContactItem(Icons.phone_rounded, '+91 9057448064', 'tel:+919057448064'),
+          _buildModernContactItem(Icons.work_rounded, 'LinkedIn Profile', 'https://www.linkedin.com/in/shivam20797'),
+          _buildModernContactItem(Icons.web_rounded, 'Portfolio Website', 'https://shivam20797.github.io/web-app/'),
         ],
       ),
     );
@@ -752,61 +690,21 @@ class _PortfolioViewState extends State<PortfolioView>
           runSpacing: spacing,
           alignment: WrapAlignment.center,
           children: [
-            _buildAnimatedSkillCard(
-              Icons.android,
-              'Kotlin',
-              'Native Android',
-              0,
-            ),
+            _buildAnimatedSkillCard(Icons.android, 'Kotlin', 'Native Android', 0),
             _buildAnimatedSkillCard(Icons.code, 'Java', 'Object-Oriented', 100),
-            _buildAnimatedSkillCard(
-              Icons.flutter_dash,
-              'Dart',
-              'Flutter Framework',
-              200,
-            ),
-            _buildAnimatedSkillCard(
-              Icons.architecture,
-              'MVVM',
-              'Architecture Pattern',
-              300,
-            ),
-            _buildAnimatedSkillCard(
-              Icons.api,
-              'Retrofit',
-              'REST API Client',
-              400,
-            ),
-            _buildAnimatedSkillCard(
-              Icons.cloud,
-              'Firebase',
-              'Backend Services',
-              500,
-            ),
-            _buildAnimatedSkillCard(
-              Icons.storage,
-              'Room',
-              'Local Database',
-              600,
-            ),
-            _buildAnimatedSkillCard(
-              Icons.developer_mode,
-              'Android Studio',
-              'IDE',
-              700,
-            ),
+            _buildAnimatedSkillCard(Icons.flutter_dash, 'Dart', 'Flutter Framework', 200),
+            _buildAnimatedSkillCard(Icons.architecture, 'MVVM', 'Architecture Pattern', 300),
+            _buildAnimatedSkillCard(Icons.api, 'Retrofit', 'REST API Client', 400),
+            _buildAnimatedSkillCard(Icons.cloud, 'Firebase', 'Backend Services', 500),
+            _buildAnimatedSkillCard(Icons.storage, 'Room', 'Local Database', 600),
+            _buildAnimatedSkillCard(Icons.developer_mode, 'Android Studio', 'IDE', 700),
           ],
         );
       },
     );
   }
 
-  Widget _buildAnimatedSkillCard(
-    IconData icon,
-    String title,
-    String subtitle,
-    int delay,
-  ) {
+  Widget _buildAnimatedSkillCard(IconData icon, String title, String subtitle, int delay) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 600 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -823,8 +721,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet =
-            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
@@ -860,13 +757,7 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedExperienceCard(
-    String role,
-    String company,
-    String duration,
-    String description,
-    int delay,
-  ) {
+  Widget _buildAnimatedExperienceCard(String role, String company, String duration, String description, int delay) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 800 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -929,8 +820,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet =
-            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -950,26 +840,11 @@ class _PortfolioViewState extends State<PortfolioView>
               if (isMobile)
                 Column(
                   children: [
-                    _buildAnimatedProjectCard(
-                      'E-Commerce App',
-                      'Kotlin + MVVM + Room',
-                      Icons.shopping_cart,
-                      0,
-                    ),
+                    _buildAnimatedProjectCard('E-Commerce App', 'Kotlin + MVVM + Room', Icons.shopping_cart, 0),
                     const SizedBox(height: 20),
-                    _buildAnimatedProjectCard(
-                      'Chat App',
-                      'Flutter + Firebase',
-                      Icons.chat,
-                      200,
-                    ),
+                    _buildAnimatedProjectCard('Chat App', 'Flutter + Firebase', Icons.chat, 200),
                     const SizedBox(height: 20),
-                    _buildAnimatedProjectCard(
-                      'Weather App',
-                      'Android + Retrofit',
-                      Icons.wb_sunny,
-                      400,
-                    ),
+                    _buildAnimatedProjectCard('Weather App', 'Android + Retrofit', Icons.wb_sunny, 400),
                   ],
                 )
               else
@@ -978,24 +853,9 @@ class _PortfolioViewState extends State<PortfolioView>
                   runSpacing: isWeb ? 20 : 15,
                   alignment: WrapAlignment.center,
                   children: [
-                    _buildAnimatedProjectCard(
-                      'E-Commerce App',
-                      'Kotlin + MVVM + Room',
-                      Icons.shopping_cart,
-                      0,
-                    ),
-                    _buildAnimatedProjectCard(
-                      'Chat App',
-                      'Flutter + Firebase',
-                      Icons.chat,
-                      200,
-                    ),
-                    _buildAnimatedProjectCard(
-                      'Weather App',
-                      'Android + Retrofit',
-                      Icons.wb_sunny,
-                      400,
-                    ),
+                    _buildAnimatedProjectCard('E-Commerce App', 'Kotlin + MVVM + Room', Icons.shopping_cart, 0),
+                    _buildAnimatedProjectCard('Chat App', 'Flutter + Firebase', Icons.chat, 200),
+                    _buildAnimatedProjectCard('Weather App', 'Android + Retrofit', Icons.wb_sunny, 400),
                   ],
                 ),
             ],
@@ -1005,12 +865,7 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedProjectCard(
-    String title,
-    String tech,
-    IconData icon,
-    int delay,
-  ) {
+  Widget _buildAnimatedProjectCard(String title, String tech, IconData icon, int delay) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final parentWidth = MediaQuery.of(context).size.width;
@@ -1018,9 +873,7 @@ class _PortfolioViewState extends State<PortfolioView>
         final isTablet = parentWidth > 768 && parentWidth <= 1200;
         final isMobile = parentWidth <= 768;
 
-        final cardWidth = isMobile
-            ? double.infinity
-            : (isTablet ? 180.0 : 200.0);
+        final cardWidth = isMobile ? double.infinity : (isTablet ? 180.0 : 200.0);
 
         return TweenAnimationBuilder<double>(
           duration: Duration(milliseconds: 600 + delay),
@@ -1030,9 +883,7 @@ class _PortfolioViewState extends State<PortfolioView>
               scale: value,
               child: Container(
                 width: isMobile ? null : cardWidth,
-                constraints: isMobile
-                    ? const BoxConstraints(maxWidth: 300)
-                    : null,
+                constraints: isMobile ? const BoxConstraints(maxWidth: 300) : null,
                 padding: EdgeInsets.all(isWeb ? 20 : (isTablet ? 16 : 14)),
                 decoration: BoxDecoration(
                   color: const Color(0xFF0f172a),
@@ -1079,13 +930,6 @@ class _PortfolioViewState extends State<PortfolioView>
       },
     );
   }
-
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
-  }
 }
 
 class _FlipCard extends StatefulWidget {
@@ -1103,8 +947,7 @@ class _FlipCard extends StatefulWidget {
   State<_FlipCard> createState() => _FlipCardState();
 }
 
-class _FlipCardState extends State<_FlipCard>
-    with SingleTickerProviderStateMixin {
+class _FlipCardState extends State<_FlipCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isFlipped = false;
@@ -1116,10 +959,9 @@ class _FlipCardState extends State<_FlipCard>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -1153,25 +995,16 @@ class _FlipCardState extends State<_FlipCard>
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final parentWidth = constraints.maxWidth;
-                final cardWidth = parentWidth > 800
-                    ? 140.0
-                    : (parentWidth > 400 ? 120.0 : 100.0);
-                final cardHeight = parentWidth > 800
-                    ? 120.0
-                    : (parentWidth > 400 ? 100.0 : 90.0);
+                final cardWidth = parentWidth > 800 ? 140.0 : (parentWidth > 400 ? 120.0 : 100.0);
+                final cardHeight = parentWidth > 800 ? 120.0 : (parentWidth > 400 ? 100.0 : 90.0);
 
                 return Container(
                   width: cardWidth,
                   height: cardHeight,
                   decoration: BoxDecoration(
-                    color: isShowingFront
-                        ? const Color(0xFF0f172a)
-                        : const Color(0xFF60a5fa),
+                    color: isShowingFront ? const Color(0xFF0f172a) : const Color(0xFF60a5fa),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: const Color(0xFF60a5fa),
-                      width: 1,
-                    ),
+                    border: Border.all(color: const Color(0xFF60a5fa), width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF60a5fa).withOpacity(0.2),
