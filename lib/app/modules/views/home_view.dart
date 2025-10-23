@@ -175,10 +175,10 @@ class HomeView extends StatelessWidget {
                   spacing: 12,
                   runSpacing: 12,
                   children: [
+                    _buildQuickAccessChip('Portfolio', '${Uri.base.origin}/portfolio.html'),
                     _buildQuickAccessChip('Google', 'https://google.com'),
                     _buildQuickAccessChip('GitHub', 'https://github.com'),
                     _buildQuickAccessChip('YouTube', 'https://youtube.com'),
-                    _buildQuickAccessChip('Twitter', 'https://twitter.com'),
                   ],
                 ),
               ],
