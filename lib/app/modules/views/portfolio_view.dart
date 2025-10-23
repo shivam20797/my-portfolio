@@ -243,6 +243,16 @@ class _PortfolioViewState extends State<PortfolioView>
                   style: TextStyle(fontSize: 20, color: Color(0xFF94a3b8)),
                 ),
                 const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildContactIcon(Icons.email, 'mailto:agarwalsatyam027@gmail.com', 0),
+                    _buildContactIcon(Icons.phone, 'tel:+918058083031', 100),
+                    _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/satyam-a-a36b3217b', 200),
+                    _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 Wrap(
                   spacing: 10,
                   children: [
@@ -254,6 +264,38 @@ class _PortfolioViewState extends State<PortfolioView>
                   ],
                 ),
               ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildContactIcon(IconData icon, String url, int delay) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 800 + delay),
+      tween: Tween(begin: 0.0, end: 1.0),
+      builder: (context, value, child) {
+        return Transform.scale(
+          scale: value,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            child: InkWell(
+              onTap: () => _launchUrl(url),
+              borderRadius: BorderRadius.circular(25),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.1),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                ),
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
             ),
           ),
         );
@@ -778,23 +820,30 @@ class _PortfolioViewState extends State<PortfolioView>
                   ),
                 ),
                 const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Wrap(
+                  spacing: 15,
+                  runSpacing: 15,
+                  alignment: WrapAlignment.center,
                   children: [
                     _buildContactButton(
                       Icons.email,
                       'Email',
-                      'mailto:agarwalsatyam027@gmail.com',
+                      'mailto:shivamcsaiet316@gmail.com',
                     ),
                     _buildContactButton(
                       Icons.phone,
                       'Call',
-                      'tel:+918058083031',
+                      'tel:+919057448064',
                     ),
                     _buildContactButton(
                       Icons.work,
                       'LinkedIn',
-                      'https://www.linkedin.com/in/satyam-a-a36b3217b',
+                      'https://www.linkedin.com/in/shivam20797',
+                    ),
+                    _buildContactButton(
+                      Icons.web,
+                      'Website',
+                      'https://shivam20797.github.io/web-app/',
                     ),
                   ],
                 ),
