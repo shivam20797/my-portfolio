@@ -493,32 +493,6 @@ class _PortfolioViewState extends State<PortfolioView>
                         },
                       ),
                       SizedBox(height: isWeb ? 20 : 15),
-                      Text(
-                        'Shivam Agrawal',
-                        style: TextStyle(
-                          fontSize: isWeb ? 24 : (isTablet ? 20 : 18),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: isWeb ? 8 : 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF60a5fa).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          'Mobile App Developer',
-                          style: TextStyle(
-                            fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
-                            color: const Color(0xFF60a5fa),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: isWeb ? 20 : 15),
                       _buildQuickStats(),
                     ],
                   ),
@@ -1343,6 +1317,7 @@ class _PortfolioViewState extends State<PortfolioView>
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          color: const Color(0xFF1e293b),
           child: Column(
             children: [
               Text(
@@ -1354,24 +1329,109 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              if (isMobile)
-                Column(
-                  children: [
-                    _buildLanguageCard('English', 'Professional Working Proficiency', Icons.language, 0),
-                    const SizedBox(height: 16),
-                    _buildLanguageCard('Hindi', 'Full Professional Proficiency', Icons.translate, 200),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    Expanded(child: _buildLanguageCard('English', 'Professional Working Proficiency', Icons.language, 0)),
-                    const SizedBox(width: 20),
-                    Expanded(child: _buildLanguageCard('Hindi', 'Full Professional Proficiency', Icons.translate, 200)),
-                  ],
-                ),
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 800),
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: Container(
+                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF0f172a), Color(0xFF1e293b)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF60a5fa).withOpacity(0.2),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: if (isMobile)
+                        Column(
+                          children: [
+                            _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9),
+                            const SizedBox(height: 20),
+                            _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0),
+                          ],
+                        )
+                      else
+                        Row(
+                          children: [
+                            Expanded(child: _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9)),
+                            const SizedBox(width: 30),
+                            Expanded(child: _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0)),
+                          ],
+                        ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageItem(String flag, String language, String proficiency, double level) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = MediaQuery.of(context).size.width > 1200;
+        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
+        
+        return Column(
+          children: [
+            Text(
+              flag,
+              style: TextStyle(fontSize: isWeb ? 40 : (isTablet ? 35 : 30)),
+            ),
+            SizedBox(height: isWeb ? 12 : 8),
+            Text(
+              language,
+              style: TextStyle(
+                fontSize: isWeb ? 18 : (isTablet ? 16 : 15),
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: isWeb ? 8 : 6),
+            Text(
+              proficiency,
+              style: TextStyle(
+                fontSize: isWeb ? 12 : (isTablet ? 11 : 10),
+                color: const Color(0xFF94a3b8),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: isWeb ? 12 : 8),
+            Container(
+              width: double.infinity,
+              height: 6,
+              decoration: BoxDecoration(
+                color: const Color(0xFF334155),
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: level,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+                    ),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
