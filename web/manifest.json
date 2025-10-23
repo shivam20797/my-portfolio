@@ -1,11 +1,11 @@
 {
-    "name": "my_reminder",
-    "short_name": "my_reminder",
+    "name": "Shivam Agrawal Portfolio",
+    "short_name": "Portfolio",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#hexcode",
-    "theme_color": "#hexcode",
-    "description": "A new Flutter project.",
+    "background_color": "#0f172a",
+    "theme_color": "#60a5fa",
+    "description": "Professional portfolio of Shivam Agrawal - Application Developer with 6+ years experience in mobile app development.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

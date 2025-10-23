@@ -178,7 +178,7 @@ class _PortfolioViewState extends State<PortfolioView>
           Tab(text: 'Projects'),
           Tab(text: 'Education'),
           Tab(text: 'Languages'),
-          Tab(text: 'Contact'),
+          Tab(text: 'Get In Touch'),
         ],
       ),
 
@@ -1586,10 +1586,10 @@ class _PortfolioViewState extends State<PortfolioView>
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: isWeb ? 3 : 2,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              childAspectRatio: isWeb ? 2.5 : 2.2,
+                              crossAxisCount: isWeb ? 4 : (isTablet ? 3 : 2),
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: isWeb ? 3.0 : (isTablet ? 2.8 : 2.5),
                             ),
                             itemCount: projects.length,
                             itemBuilder: (context, index) => _buildProjectItem(projects[index], isWeb, isTablet, isMobile),
@@ -1606,69 +1606,12 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildProjectItem(Map<String, dynamic> project, bool isWeb, bool isTablet, bool isMobile) {
-    return InkWell(
-      onTap: project['url'] != null ? () => _launchUrl(project['url']) : null,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: EdgeInsets.all(isWeb ? 16 : (isTablet ? 14 : 12)),
-        decoration: BoxDecoration(
-          color: const Color(0xFF334155).withOpacity(0.5),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF64748b).withOpacity(0.4),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                project['icon'],
-                size: isWeb ? 20 : 16,
-                color: const Color(0xFF94a3b8),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          project['name'],
-                          style: TextStyle(
-                            fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
-                            fontWeight: FontWeight.bold,
-                            color: project['url'] != null ? const Color(0xFF60a5fa) : Colors.white,
-                            decoration: project['url'] != null ? TextDecoration.underline : null,
-                          ),
-                        ),
-                      ),
-                      if (project['url'] != null)
-                        Icon(
-                          Icons.open_in_new,
-                          size: 12,
-                          color: const Color(0xFF60a5fa),
-                        ),
-                    ],
-                  ),
-                  Text(
-                    project['desc'],
-                    style: TextStyle(
-                      fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
-                      color: const Color(0xFF94a3b8),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return _ProjectCard(
+      project: project,
+      isWeb: isWeb,
+      isTablet: isTablet,
+      isMobile: isMobile,
+      onLaunch: _launchUrl,
     );
   }
 
@@ -1748,6 +1691,173 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
 
+}
+
+class _ProjectCard extends StatefulWidget {
+  final Map<String, dynamic> project;
+  final bool isWeb;
+  final bool isTablet;
+  final bool isMobile;
+  final Function(String) onLaunch;
+
+  const _ProjectCard({
+    required this.project,
+    required this.isWeb,
+    required this.isTablet,
+    required this.isMobile,
+    required this.onLaunch,
+  });
+
+  @override
+  State<_ProjectCard> createState() => _ProjectCardState();
+}
+
+class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _expandAnimation;
+  bool _isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleExpand() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _toggleExpand,
+      borderRadius: BorderRadius.circular(8),
+      child: AnimatedBuilder(
+        animation: _expandAnimation,
+        builder: (context, child) {
+          return Container(
+            padding: EdgeInsets.all(widget.isWeb ? 12 : (widget.isTablet ? 10 : 8)),
+            decoration: BoxDecoration(
+              color: const Color(0xFF334155).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF64748b).withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Icon(
+                        widget.project['icon'],
+                        size: widget.isWeb ? 16 : 14,
+                        color: const Color(0xFF94a3b8),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.project['name'],
+                        style: TextStyle(
+                          fontSize: widget.isWeb ? 12 : (widget.isTablet ? 11 : 10),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Icon(
+                      _isExpanded ? Icons.expand_less : Icons.expand_more,
+                      size: 16,
+                      color: const Color(0xFF94a3b8),
+                    ),
+                  ],
+                ),
+                if (_expandAnimation.value > 0)
+                  SizeTransition(
+                    sizeFactor: _expandAnimation,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.project['desc'],
+                            style: TextStyle(
+                              fontSize: widget.isWeb ? 10 : (widget.isTablet ? 9 : 8),
+                              color: const Color(0xFF94a3b8),
+                            ),
+                          ),
+                          if (widget.project['url'] != null) ..[
+                            const SizedBox(height: 8),
+                            InkWell(
+                              onTap: () => widget.onLaunch(widget.project['url']),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF60a5fa).withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.play_arrow,
+                                      size: 12,
+                                      color: const Color(0xFF60a5fa),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Play Store',
+                                      style: TextStyle(
+                                        fontSize: widget.isWeb ? 9 : 8,
+                                        color: const Color(0xFF60a5fa),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class _FlipCard extends StatefulWidget {
