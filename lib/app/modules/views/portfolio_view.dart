@@ -114,7 +114,10 @@ class _PortfolioViewState extends State<PortfolioView>
             opacity: value,
             child: const Text(
               'Shivam Agrawal',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           );
         },
@@ -186,81 +189,146 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildHeader() {
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 1200),
-      tween: Tween(begin: 0.0, end: 1.0),
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: Container(
-            padding: const EdgeInsets.all(40),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF1e293b), Color(0xFF334155)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Column(
-              children: [
-                Hero(
-                  tag: 'profile',
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF60a5fa).withOpacity(0.3),
-                          blurRadius: 20,
-                          spreadRadius: 5,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
+
+        return TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1200),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: Container(
+                padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1e293b), Color(0xFF334155)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Hero(
+                      tag: 'profile',
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF60a5fa).withOpacity(0.3),
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                            ),
+                          ],
                         ),
+                        child: CircleAvatar(
+                          radius: isWeb ? 60 : (isTablet ? 50 : 40),
+                          backgroundColor: const Color(0xFF60a5fa),
+                          child: Icon(
+                            Icons.person,
+                            size: isWeb ? 60 : (isTablet ? 50 : 40),
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: isWeb ? 20 : 15),
+                    Text(
+                      'Shivam Agrawal',
+                      style: TextStyle(
+                        fontSize: isWeb ? 36 : (isTablet ? 28 : 24),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: isWeb ? 10 : 8),
+                    Text(
+                      'Application Developer | Mobile Expert',
+                      style: TextStyle(
+                        fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
+                        color: const Color(0xFF94a3b8),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: isWeb ? 20 : 15),
+                    if (isMobile)
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          _buildContactIcon(
+                            Icons.email,
+                            'mailto:shivamcsaiet316@gmail.com',
+                            0,
+                          ),
+                          _buildContactIcon(
+                            Icons.phone,
+                            'tel:+919057448064',
+                            100,
+                          ),
+                          _buildContactIcon(
+                            Icons.work,
+                            'https://www.linkedin.com/in/shivam20797',
+                            200,
+                          ),
+                          _buildContactIcon(
+                            Icons.web,
+                            'https://shivam20797.github.io/web-app/',
+                            300,
+                          ),
+                        ],
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildContactIcon(
+                            Icons.email,
+                            'mailto:shivamcsaiet316@gmail.com',
+                            0,
+                          ),
+                          _buildContactIcon(
+                            Icons.phone,
+                            'tel:+919057448064',
+                            100,
+                          ),
+                          _buildContactIcon(
+                            Icons.work,
+                            'https://www.linkedin.com/in/shivam20797',
+                            200,
+                          ),
+                          _buildContactIcon(
+                            Icons.web,
+                            'https://shivam20797.github.io/web-app/',
+                            300,
+                          ),
+                        ],
+                      ),
+                    SizedBox(height: isWeb ? 20 : 15),
+                    Wrap(
+                      spacing: isWeb ? 10 : 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        _buildAnimatedSkillChip('Kotlin', 0),
+                        _buildAnimatedSkillChip('Flutter', 200),
+                        _buildAnimatedSkillChip('Android', 400),
+                        _buildAnimatedSkillChip('Firebase', 600),
+                        _buildAnimatedSkillChip('MVVM', 800),
                       ],
                     ),
-                    child: const CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Color(0xFF60a5fa),
-                      child: Icon(Icons.person, size: 60, color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Shivam Agrawal',
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Application Developer | Mobile Expert',
-                  style: TextStyle(fontSize: 20, color: Color(0xFF94a3b8)),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                    _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                    _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                    _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Wrap(
-                  spacing: 10,
-                  children: [
-                    _buildAnimatedSkillChip('Kotlin', 0),
-                    _buildAnimatedSkillChip('Flutter', 200),
-                    _buildAnimatedSkillChip('Android', 400),
-                    _buildAnimatedSkillChip('Firebase', 600),
-                    _buildAnimatedSkillChip('MVVM', 800),
-                  ],
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -285,11 +353,7 @@ class _PortfolioViewState extends State<PortfolioView>
                   color: Colors.white.withOpacity(0.1),
                   border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                child: Icon(icon, color: Colors.white, size: 20),
               ),
             ),
           ),
@@ -319,46 +383,66 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildAbout() {
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 1000),
-      tween: Tween(begin: 0.0, end: 1.0),
-      builder: (context, value, child) {
-        return Opacity(
-          opacity: value,
-          child: Container(
-            padding: const EdgeInsets.all(40),
-            child: Column(
-              children: [
-                const Text(
-                  'About Me',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF60a5fa),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design. Recognized for strong skills in app development and a proven ability to meet project deadlines effectively.',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFFf8fafc),
-                    height: 1.6,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
+
+        return TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Opacity(
+              opacity: value,
+              child: Container(
+                padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+                child: Column(
                   children: [
-                    _buildAnimatedStatCard('6+', 'Years Experience', 0),
-                    _buildAnimatedStatCard('30+', 'Apps Built', 200),
-                    _buildAnimatedStatCard('12+', 'Technologies', 400),
+                    Text(
+                      'About Me',
+                      style: TextStyle(
+                        fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF60a5fa),
+                      ),
+                    ),
+                    SizedBox(height: isWeb ? 20 : 15),
+                    Text(
+                      'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design. Recognized for strong skills in app development and a proven ability to meet project deadlines effectively.',
+                      style: TextStyle(
+                        fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                        color: const Color(0xFFf8fafc),
+                        height: 1.6,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: isWeb ? 30 : 20),
+                    if (isMobile)
+                      Column(
+                        children: [
+                          _buildAnimatedStatCard('6+', 'Years Experience', 0),
+                          const SizedBox(height: 15),
+                          _buildAnimatedStatCard('30+', 'Apps Built', 200),
+                          const SizedBox(height: 15),
+                          _buildAnimatedStatCard('12+', 'Technologies', 400),
+                        ],
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildAnimatedStatCard('6+', 'Years Experience', 0),
+                          _buildAnimatedStatCard('30+', 'Apps Built', 200),
+                          _buildAnimatedStatCard('12+', 'Technologies', 400),
+                        ],
+                      ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -413,38 +497,48 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildSkills() {
-    return Container(
-      padding: const EdgeInsets.all(40),
-      color: const Color(0xFF1e293b),
-      child: Column(
-        children: [
-          const Text(
-            'Technical Skills',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF60a5fa),
-            ),
-          ),
-          const SizedBox(height: 30),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          color: const Color(0xFF1e293b),
+          child: Column(
             children: [
-              // Sidebar
-              Expanded(
-                flex: 1,
-                child: _buildSkillsSidebar(),
+              Text(
+                'Technical Skills',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
               ),
-              const SizedBox(width: 30),
-              // Main Skills Grid
-              Expanded(
-                flex: 2,
-                child: _buildSkillsGrid(),
-              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              if (isMobile)
+                Column(
+                  children: [
+                    _buildSkillsSidebar(),
+                    const SizedBox(height: 20),
+                    _buildSkillsGrid(),
+                  ],
+                )
+              else
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
+                    SizedBox(width: isWeb ? 30 : 20),
+                    Expanded(flex: isWeb ? 2 : 3, child: _buildSkillsGrid()),
+                  ],
+                ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -459,16 +553,16 @@ class _PortfolioViewState extends State<PortfolioView>
             opacity: value,
             child: Column(
               children: [
-                // Contact Section
                 _buildModernContactCard(),
                 const SizedBox(height: 20),
-                // Skills Categories
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: const Color(0xFF0f172a),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                    border: Border.all(
+                      color: const Color(0xFF60a5fa).withOpacity(0.3),
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -482,20 +576,28 @@ class _PortfolioViewState extends State<PortfolioView>
                         ),
                       ),
                       const SizedBox(height: 20),
-                      _buildSkillCategory('Mobile Development', Icons.phone_android, [
-                        'Kotlin', 'Java', 'Dart', 'Android SDK'
-                      ]),
+                      _buildSkillCategory(
+                        'Mobile Development',
+                        Icons.phone_android,
+                        ['Kotlin', 'Java', 'Dart', 'Android SDK'],
+                      ),
                       _buildSkillCategory('Architecture', Icons.architecture, [
-                        'MVVM', 'Clean Architecture'
+                        'MVVM',
+                        'Clean Architecture',
                       ]),
                       _buildSkillCategory('Backend & APIs', Icons.api, [
-                        'Retrofit', 'Firebase', 'REST APIs'
+                        'Retrofit',
+                        'Firebase',
+                        'REST APIs',
                       ]),
                       _buildSkillCategory('Database', Icons.storage, [
-                        'Room', 'SQLite'
+                        'Room',
+                        'SQLite',
                       ]),
                       _buildSkillCategory('Tools & Services', Icons.build, [
-                        'Android Studio', 'Git', 'OneSignal'
+                        'Android Studio',
+                        'Git',
+                        'OneSignal',
                       ]),
                     ],
                   ),
@@ -625,243 +727,146 @@ class _PortfolioViewState extends State<PortfolioView>
             ],
           ),
           const SizedBox(height: 8),
-          ...skills.map((skill) => Padding(
-            padding: const EdgeInsets.only(left: 24, bottom: 4),
-            child: Text(
-              '• $skill',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Color(0xFF94a3b8),
+          ...skills.map(
+            (skill) => Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 4),
+              child: Text(
+                '• $skill',
+                style: const TextStyle(fontSize: 12, color: Color(0xFF94a3b8)),
               ),
             ),
-          )),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildSkillsGrid() {
-    return Wrap(
-      spacing: 15,
-      runSpacing: 15,
-      children: [
-        _buildAnimatedSkillCard(Icons.android, 'Kotlin', 'Native Android', 0),
-        _buildAnimatedSkillCard(Icons.code, 'Java', 'Object-Oriented', 100),
-        _buildAnimatedSkillCard(Icons.flutter_dash, 'Dart', 'Flutter Framework', 200),
-        _buildAnimatedSkillCard(Icons.architecture, 'MVVM', 'Architecture Pattern', 300),
-        _buildAnimatedSkillCard(Icons.api, 'Retrofit', 'REST API Client', 400),
-        _buildAnimatedSkillCard(Icons.cloud, 'Firebase', 'Backend Services', 500),
-        _buildAnimatedSkillCard(Icons.storage, 'Room', 'Local Database', 600),
-        _buildAnimatedSkillCard(Icons.developer_mode, 'Android Studio', 'IDE', 700),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 800;
+        final spacing = isWeb ? 15.0 : 10.0;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          alignment: WrapAlignment.center,
+          children: [
+            _buildAnimatedSkillCard(
+              Icons.android,
+              'Kotlin',
+              'Native Android',
+              0,
+            ),
+            _buildAnimatedSkillCard(Icons.code, 'Java', 'Object-Oriented', 100),
+            _buildAnimatedSkillCard(
+              Icons.flutter_dash,
+              'Dart',
+              'Flutter Framework',
+              200,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.architecture,
+              'MVVM',
+              'Architecture Pattern',
+              300,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.api,
+              'Retrofit',
+              'REST API Client',
+              400,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.cloud,
+              'Firebase',
+              'Backend Services',
+              500,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.storage,
+              'Room',
+              'Local Database',
+              600,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.developer_mode,
+              'Android Studio',
+              'IDE',
+              700,
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildAnimatedSkillCard(IconData icon, String title, String subtitle, int delay) {
+  Widget _buildAnimatedSkillCard(
+    IconData icon,
+    String title,
+    String subtitle,
+    int delay,
+  ) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 600 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: _FlipCard(
-            icon: icon,
-            title: title,
-            subtitle: subtitle,
+          child: _FlipCard(icon: icon, title: title, subtitle: subtitle),
+        );
+      },
+    );
+  }
+
+  Widget _buildExperience() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          child: Column(
+            children: [
+              Text(
+                'Work Experience',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              _buildAnimatedExperienceCard(
+                'Application Development Team Lead',
+                'Appentus Technologies',
+                'Nov 2019 - Oct 2025',
+                'A results-oriented Senior Team Lead – Android & Flutter Developer with over 5 years of experience designing, developing, and deploying scalable mobile applications. Skilled in Kotlin, Java, and Flutter, with hands-on expertise in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
+                0,
+              ),
+              _buildAnimatedExperienceCard(
+                'Android Developer',
+                'iSkylar Technologies',
+                'Mar 2019 - Nov 2019',
+                'Worked as an Android Developer, focusing on learning core Android development concepts and building small-scale applications using Java. Developed and maintained 2 Android projects, gaining hands-on experience in UI design, activity lifecycle management, and API integration.',
+                200,
+              ),
+            ],
           ),
         );
       },
     );
   }
-}
 
-class _FlipCard extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  const _FlipCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  State<_FlipCard> createState() => _FlipCardState();
-}
-
-class _FlipCardState extends State<_FlipCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  bool _isFlipped = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _flip() {
-    if (_isFlipped) {
-      _controller.reverse();
-    } else {
-      _controller.forward();
-    }
-    _isFlipped = !_isFlipped;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _flip,
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          final isShowingFront = _animation.value < 0.5;
-          return Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateY(_animation.value * 3.14159),
-            child: Container(
-              width: 140,
-              height: 120,
-              decoration: BoxDecoration(
-                color: isShowingFront
-                    ? const Color(0xFF0f172a)
-                    : const Color(0xFF60a5fa),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFF60a5fa),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF60a5fa).withOpacity(0.2),
-                    blurRadius: 15,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: isShowingFront
-                  ? _buildFrontCard()
-                  : Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()..rotateY(3.14159),
-                      child: _buildBackCard(),
-                    ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildFrontCard() {
-    return Padding(
-      padding: const EdgeInsets.all(14),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(widget.icon, size: 28, color: const Color(0xFF60a5fa)),
-          const SizedBox(height: 6),
-          Text(
-            widget.title,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          Text(
-            widget.subtitle,
-            style: const TextStyle(
-              fontSize: 9,
-              color: Color(0xFF94a3b8),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBackCard() {
-    return Padding(
-      padding: const EdgeInsets.all(14),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.star, size: 28, color: Colors.white),
-          const SizedBox(height: 6),
-          const Text(
-            'Expert Level',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          Text(
-            '5+ Years Experience',
-            style: TextStyle(
-              fontSize: 9,
-              color: Colors.white.withOpacity(0.8),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildExperience() {
-    return Container(
-      padding: const EdgeInsets.all(40),
-      child: Column(
-        children: [
-          const Text(
-            'Work Experience',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF60a5fa),
-            ),
-          ),
-          const SizedBox(height: 30),
-          _buildAnimatedExperienceCard(
-            'Application Development Team Lead',
-            'Appentus Technologies',
-            'Nov 2019 - Oct 2025',
-            'A results-oriented Senior Team Lead – Android & Flutter Developer with over 5 years of experience designing, developing, and deploying scalable mobile applications. Skilled in Kotlin, Java, and Flutter, with hands-on expertise in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
-            0,
-          ),
-          _buildAnimatedExperienceCard(
-            'Android Developer',
-            'iSkylar Technologies',
-            'Mar 2019 - Nov 2019',
-            'Worked as an Android Developer, focusing on learning core Android development concepts and building small-scale applications using Java. Developed and maintained 2 Android projects, gaining hands-on experience in UI design, activity lifecycle management, and API integration.',
-            200,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAnimatedExperienceCard(String role, String company, String duration, String description, int delay) {
+  Widget _buildAnimatedExperienceCard(
+    String role,
+    String company,
+    String duration,
+    String description,
+    int delay,
+  ) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 800 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -921,78 +926,155 @@ class _FlipCardState extends State<_FlipCard>
   }
 
   Widget _buildProjects() {
-    return Container(
-      padding: const EdgeInsets.all(40),
-      color: const Color(0xFF1e293b),
-      child: Column(
-        children: [
-          const Text(
-            'Featured Projects',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF60a5fa),
-            ),
-          ),
-          const SizedBox(height: 30),
-          Wrap(
-            spacing: 20,
-            runSpacing: 20,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWeb = constraints.maxWidth > 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
+
+        return Container(
+          padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
+          color: const Color(0xFF1e293b),
+          child: Column(
             children: [
-              _buildAnimatedProjectCard('E-Commerce App', 'Kotlin + MVVM + Room', Icons.shopping_cart, 0),
-              _buildAnimatedProjectCard('Chat App', 'Flutter + Firebase', Icons.chat, 200),
-              _buildAnimatedProjectCard('Weather App', 'Android + Retrofit', Icons.wb_sunny, 400),
+              Text(
+                'Featured Projects',
+                style: TextStyle(
+                  fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF60a5fa),
+                ),
+              ),
+              SizedBox(height: isWeb ? 30 : 20),
+              if (isMobile)
+                Column(
+                  children: [
+                    _buildAnimatedProjectCard(
+                      'E-Commerce App',
+                      'Kotlin + MVVM + Room',
+                      Icons.shopping_cart,
+                      0,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildAnimatedProjectCard(
+                      'Chat App',
+                      'Flutter + Firebase',
+                      Icons.chat,
+                      200,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildAnimatedProjectCard(
+                      'Weather App',
+                      'Android + Retrofit',
+                      Icons.wb_sunny,
+                      400,
+                    ),
+                  ],
+                )
+              else
+                Wrap(
+                  spacing: isWeb ? 20 : 15,
+                  runSpacing: isWeb ? 20 : 15,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    _buildAnimatedProjectCard(
+                      'E-Commerce App',
+                      'Kotlin + MVVM + Room',
+                      Icons.shopping_cart,
+                      0,
+                    ),
+                    _buildAnimatedProjectCard(
+                      'Chat App',
+                      'Flutter + Firebase',
+                      Icons.chat,
+                      200,
+                    ),
+                    _buildAnimatedProjectCard(
+                      'Weather App',
+                      'Android + Retrofit',
+                      Icons.wb_sunny,
+                      400,
+                    ),
+                  ],
+                ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildAnimatedProjectCard(String title, String tech, IconData icon, int delay) {
-    return TweenAnimationBuilder<double>(
-      duration: Duration(milliseconds: 600 + delay),
-      tween: Tween(begin: 0.0, end: 1.0),
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: Container(
-            width: 200,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: const Color(0xFF0f172a),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF60a5fa).withOpacity(0.2),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
+  Widget _buildAnimatedProjectCard(
+    String title,
+    String tech,
+    IconData icon,
+    int delay,
+  ) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final parentWidth = MediaQuery.of(context).size.width;
+        final isWeb = parentWidth > 1200;
+        final isTablet = parentWidth > 768 && parentWidth <= 1200;
+        final isMobile = parentWidth <= 768;
+
+        final cardWidth = isMobile
+            ? double.infinity
+            : (isTablet ? 180.0 : 200.0);
+
+        return TweenAnimationBuilder<double>(
+          duration: Duration(milliseconds: 600 + delay),
+          tween: Tween(begin: 0.0, end: 1.0),
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: Container(
+                width: isMobile ? null : cardWidth,
+                constraints: isMobile
+                    ? const BoxConstraints(maxWidth: 300)
+                    : null,
+                padding: EdgeInsets.all(isWeb ? 20 : (isTablet ? 16 : 14)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0f172a),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF60a5fa).withOpacity(0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Icon(icon, size: 40, color: const Color(0xFF60a5fa)),
-                const SizedBox(height: 15),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                child: Column(
+                  children: [
+                    Icon(
+                      icon,
+                      size: isWeb ? 40 : (isTablet ? 35 : 30),
+                      color: const Color(0xFF60a5fa),
+                    ),
+                    SizedBox(height: isWeb ? 15 : 10),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      tech,
+                      style: TextStyle(
+                        fontSize: isWeb ? 12 : (isTablet ? 11 : 10),
+                        color: const Color(0xFF94a3b8),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                Text(
-                  tech,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF94a3b8),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -1003,5 +1085,166 @@ class _FlipCardState extends State<_FlipCard>
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }
+  }
+}
+
+class _FlipCard extends StatefulWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  const _FlipCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  State<_FlipCard> createState() => _FlipCardState();
+}
+
+class _FlipCardState extends State<_FlipCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool _isFlipped = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _flip() {
+    if (_isFlipped) {
+      _controller.reverse();
+    } else {
+      _controller.forward();
+    }
+    _isFlipped = !_isFlipped;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _flip,
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          final isShowingFront = _animation.value < 0.5;
+          return Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateY(_animation.value * 3.14159),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final parentWidth = constraints.maxWidth;
+                final cardWidth = parentWidth > 800
+                    ? 140.0
+                    : (parentWidth > 400 ? 120.0 : 100.0);
+                final cardHeight = parentWidth > 800
+                    ? 120.0
+                    : (parentWidth > 400 ? 100.0 : 90.0);
+
+                return Container(
+                  width: cardWidth,
+                  height: cardHeight,
+                  decoration: BoxDecoration(
+                    color: isShowingFront
+                        ? const Color(0xFF0f172a)
+                        : const Color(0xFF60a5fa),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color(0xFF60a5fa),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF60a5fa).withOpacity(0.2),
+                        blurRadius: 15,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: isShowingFront
+                      ? _buildFrontCard()
+                      : Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..rotateY(3.14159),
+                          child: _buildBackCard(),
+                        ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildFrontCard() {
+    return Padding(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(widget.icon, size: 28, color: const Color(0xFF60a5fa)),
+          const SizedBox(height: 6),
+          Text(
+            widget.title,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            widget.subtitle,
+            style: const TextStyle(fontSize: 9, color: Color(0xFF94a3b8)),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBackCard() {
+    return Padding(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.star, size: 28, color: Colors.white),
+          const SizedBox(height: 6),
+          const Text(
+            'Expert Level',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            '5+ Years Experience',
+            style: TextStyle(fontSize: 9, color: Colors.white.withOpacity(0.8)),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }
