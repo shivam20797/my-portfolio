@@ -485,47 +485,65 @@ class _PortfolioViewState extends State<PortfolioView>
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: MouseRegion(
-            onEnter: (_) {},
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 160,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFF0f172a),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFF60a5fa), width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF60a5fa).withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Icon(icon, size: 32, color: const Color(0xFF60a5fa)),
-                  const SizedBox(height: 8),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(seconds: 2),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (context, floatValue, child) {
+              return Transform.translate(
+                offset: Offset(0, 5 * (0.5 - (floatValue * 2 - 1).abs())),
+                child: MouseRegion(
+                  onEnter: (_) {},
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: 160,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0f172a),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFF60a5fa), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF60a5fa).withOpacity(0.2),
+                          blurRadius: 15,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        TweenAnimationBuilder<double>(
+                          duration: const Duration(milliseconds: 1500),
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          builder: (context, iconValue, child) {
+                            return Transform.rotate(
+                              angle: iconValue * 0.1,
+                              child: Icon(icon, size: 32, color: const Color(0xFF60a5fa)),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          subtitle,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFF94a3b8),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Color(0xFF94a3b8),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },
@@ -686,33 +704,45 @@ class _PortfolioViewState extends State<PortfolioView>
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: Container(
-            width: 200,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: const Color(0xFF0f172a),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF60a5fa).withOpacity(0.1),
-                  blurRadius: 15,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Icon(icon, size: 40, color: const Color(0xFF60a5fa)),
-                const SizedBox(height: 15),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          child: MouseRegion(
+            onEnter: (_) {},
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: 200,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: const Color(0xFF0f172a),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF60a5fa).withOpacity(0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
                   ),
-                ),
-                Text(
+                ],
+              ),
+              child: Column(
+                children: [
+                  TweenAnimationBuilder<double>(
+                    duration: const Duration(seconds: 3),
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    builder: (context, pulseValue, child) {
+                      return Transform.scale(
+                        scale: 1.0 + 0.1 * (0.5 - (pulseValue * 2 - 1).abs()),
+                        child: Icon(icon, size: 40, color: const Color(0xFF60a5fa)),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
                   tech,
                   style: const TextStyle(
                     fontSize: 12,
