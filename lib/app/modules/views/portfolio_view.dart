@@ -1353,22 +1353,21 @@ class _PortfolioViewState extends State<PortfolioView>
                           ),
                         ],
                       ),
-                      child: if (isMobile)
-                        Column(
-                          children: [
-                            _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9),
-                            const SizedBox(height: 20),
-                            _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0),
-                          ],
-                        )
-                      else
-                        Row(
-                          children: [
-                            Expanded(child: _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9)),
-                            const SizedBox(width: 30),
-                            Expanded(child: _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0)),
-                          ],
-                        ),
+                      child: isMobile
+                        ? Column(
+                            children: [
+                              _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9),
+                              const SizedBox(height: 20),
+                              _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Expanded(child: _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9)),
+                              const SizedBox(width: 30),
+                              Expanded(child: _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0)),
+                            ],
+                          ),
                     ),
                   );
                 },
