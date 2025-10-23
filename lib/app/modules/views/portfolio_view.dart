@@ -178,7 +178,7 @@ class _PortfolioViewState extends State<PortfolioView>
           Tab(text: 'Projects'),
           Tab(text: 'Education'),
           Tab(text: 'Languages'),
-          Tab(text: 'Get In Touch'),
+          Tab(text: 'Contact'),
         ],
       ),
 
@@ -329,20 +329,13 @@ class _PortfolioViewState extends State<PortfolioView>
                         ],
                       ),
                     SizedBox(height: isWeb ? 20 : 15),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF334155).withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'Kotlin • Flutter • Android • Firebase',
-                        style: TextStyle(
-                          fontSize: isWeb ? 14 : (isTablet ? 12 : 11),
-                          color: const Color(0xFF94a3b8),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildHeaderStatBox('6+', 'Years Experience', isWeb, isTablet),
+                        SizedBox(width: isWeb ? 20 : 15),
+                        _buildHeaderStatBox('30+', 'Apps Delivered', isWeb, isTablet),
+                      ],
                     ),
                   ],
                 ),
@@ -1445,7 +1438,7 @@ class _PortfolioViewState extends State<PortfolioView>
           child: Column(
             children: [
               Text(
-                'Get In Touch',
+                'Contact',
                 style: TextStyle(
                   fontSize: isWeb ? 28 : (isTablet ? 24 : 20),
                   fontWeight: FontWeight.bold,
@@ -1606,12 +1599,123 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildProjectItem(Map<String, dynamic> project, bool isWeb, bool isTablet, bool isMobile) {
-    return _ProjectCard(
-      project: project,
-      isWeb: isWeb,
-      isTablet: isTablet,
-      isMobile: isMobile,
-      onLaunch: _launchUrl,
+    return Container(
+      padding: EdgeInsets.all(isWeb ? 12 : (isTablet ? 10 : 8)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF334155).withOpacity(0.5),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF64748b).withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Icon(
+                  project['icon'],
+                  size: isWeb ? 16 : 14,
+                  color: const Color(0xFF94a3b8),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  project['name'],
+                  style: TextStyle(
+                    fontSize: isWeb ? 12 : (isTablet ? 11 : 10),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            project['desc'],
+            style: TextStyle(
+              fontSize: isWeb ? 9 : (isTablet ? 8 : 7),
+              color: const Color(0xFF94a3b8),
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          if (project['url'] != null) ..[
+            const SizedBox(height: 6),
+            InkWell(
+              onTap: () => _launchUrl(project['url']),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF60a5fa).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.play_arrow,
+                      size: 10,
+                      color: const Color(0xFF60a5fa),
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      'Play Store',
+                      style: TextStyle(
+                        fontSize: isWeb ? 8 : 7,
+                        color: const Color(0xFF60a5fa),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderStatBox(String number, String label, bool isWeb, bool isTablet) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isWeb ? 16 : 12,
+        vertical: isWeb ? 12 : 8,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFF334155).withOpacity(0.6),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+      ),
+      child: Column(
+        children: [
+          Text(
+            number,
+            style: TextStyle(
+              fontSize: isWeb ? 18 : (isTablet ? 16 : 14),
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF60a5fa),
+            ),
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
+              color: const Color(0xFF94a3b8),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
