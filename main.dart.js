@@ -62132,6 +62132,18 @@ r.l()
 s.PM()},
 Yc(a){var s=this.y[a],r=$.a2.a9$.x.i(0,s)
 if(r!=null)A.afi(r,0,B.G4,B.cW,B.ef)},
+le(a){return this.VQ(a)},
+VQ(a){var s=0,r=A.R(t.H),q
+var $async$le=A.S(function(b,c){if(b===1)return A.O(c,r)
+while(true)switch(s){case 0:q=A.iI(a,0,null)
+s=4
+return A.W(A.abG(q),$async$le)
+case 4:s=c?2:3
+break
+case 2:s=5
+return A.W(A.abU(q),$async$le)
+case 5:case 3:return A.P(null,r)}})
+return A.Q($async$le,r)},
 N(a){var s,r,q,p,o,n,m,l,k=this,j=null,i=k.QR(),h=k.x
 h===$&&A.a()
 s=k.r
@@ -62175,19 +62187,7 @@ iM(a,b,c,d){return A.fO(new A.a53(a,b,c),A.cf(0,600+d),new A.a9(0,1,t.Y),t.i)},
 QT(){return A.lz(new A.a5b(this))},
 Cf(a,b,c,d,e){return A.fO(new A.a50(a,b,c,d),A.cf(0,800+e),new A.a9(0,1,t.Y),t.i)},
 R2(){return A.lz(new A.a5f(this))},
-l6(a,b,c,d){return A.lz(new A.a52(d,c,a,b))},
-le(a){return this.VQ(a)},
-VQ(a){var s=0,r=A.R(t.H),q
-var $async$le=A.S(function(b,c){if(b===1)return A.O(c,r)
-while(true)switch(s){case 0:q=A.iI(a,0,null)
-s=4
-return A.W(A.abG(q),$async$le)
-case 4:s=c?2:3
-break
-case 2:s=5
-return A.W(A.abU(q),$async$le)
-case 5:case 3:return A.P(null,r)}})
-return A.Q($async$le,r)}}
+l6(a,b,c,d){return A.lz(new A.a52(d,c,a,b))}}
 A.a57.prototype={
 $3(a,b,c){return A.u1(B.M9,b)},
 $S:84}
@@ -62259,7 +62259,7 @@ r=A.cF("About Me",m,m,A.e3(m,m,B.w,m,m,m,m,m,m,m,m,r,m,m,B.ao,m,m,!0,m,m,m,m,m,m
 q=A.e_(m,i?20:15,m)
 if(i)p=16
 else p=n.c?14:13
-p=A.cF("Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design. Recognized for strong skills in app development and a proven ability to meet project deadlines effectively.",m,m,A.e3(m,m,B.yJ,m,m,m,m,m,m,m,m,p,m,m,m,m,1.6,!0,m,m,m,m,m,m,m,m),B.aW)
+p=A.cF("Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment. Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.",m,m,A.e3(m,m,B.yJ,m,m,m,m,m,m,m,m,p,m,m,m,m,1.6,!0,m,m,m,m,m,m,m,m),B.aW)
 o=t.p
 p=A.c([r,q,p,A.e_(m,i?30:20,m)],o)
 i=n.a
