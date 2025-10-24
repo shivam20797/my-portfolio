@@ -342,7 +342,8 @@ class _PortfolioViewState extends State<PortfolioView>
         Text(
           'Senior Mobile Application Developer',
           style: TextStyle(
-            fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
+            fontSize: isWeb ? 16 : (isTablet ? 14 : 12),
+            fontWeight: FontWeight.w400,
             color: const Color(0xFF94a3b8),
           ),
           textAlign: TextAlign.center,
