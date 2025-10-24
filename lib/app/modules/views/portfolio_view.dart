@@ -26,13 +26,14 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(),
     GlobalKey(), // Contact section
   ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 7, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _fadeController = AnimationController(
@@ -71,7 +72,7 @@ class _PortfolioViewState extends State<PortfolioView>
     
     // Check if we're near the bottom (contact section)
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
-      newIndex = 5; // Contact tab
+      newIndex = 6; // Contact tab
     } else {
       for (int i = 0; i < _sectionKeys.length - 1; i++) {
         final context = _sectionKeys[i].currentContext;
@@ -96,7 +97,14 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _scrollToSection(int index) {
-    if (index == 5) {
+    if (index == 0) {
+      // Home section - scroll to top
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    } else if (index == 6) {
       // Contact section - scroll to bottom
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
@@ -139,12 +147,13 @@ class _PortfolioViewState extends State<PortfolioView>
                   children: [
                     _buildHeader(),
 
-                    Container(key: _sectionKeys[0], child: _buildSkills()),
-                    Container(key: _sectionKeys[1], child: _buildExperience()),
-                    Container(key: _sectionKeys[2], child: _buildProjects()),
-                    Container(key: _sectionKeys[3], child: _buildEducation()),
-                    Container(key: _sectionKeys[4], child: _buildLanguages()),
-                    Container(key: _sectionKeys[5], child: _buildContact()),
+                    Container(key: _sectionKeys[0], child: const SizedBox.shrink()),
+                    Container(key: _sectionKeys[1], child: _buildSkills()),
+                    Container(key: _sectionKeys[2], child: _buildExperience()),
+                    Container(key: _sectionKeys[3], child: _buildProjects()),
+                    Container(key: _sectionKeys[4], child: _buildEducation()),
+                    Container(key: _sectionKeys[5], child: _buildLanguages()),
+                    Container(key: _sectionKeys[6], child: _buildContact()),
                   ],
                 ),
               ),
@@ -186,6 +195,7 @@ class _PortfolioViewState extends State<PortfolioView>
         labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
         tabs: const [
+          Tab(text: 'Home'),
           Tab(text: 'Skills'),
           Tab(text: 'Experience'),
           Tab(text: 'Projects'),
@@ -340,7 +350,7 @@ class _PortfolioViewState extends State<PortfolioView>
         Text(
           'Senior Mobile Application Developer',
           style: TextStyle(
-            fontSize: isWeb ? 16 : (isTablet ? 14 : 12),
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: const Color(0xFF94a3b8),
           ),
@@ -424,18 +434,18 @@ class _PortfolioViewState extends State<PortfolioView>
           SizedBox(height: isWeb ? 20 : 15),
           Text(
             'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
-            style: TextStyle(
-              fontSize: isWeb ? 15 : (isTablet ? 13 : 12),
-              color: Colors.white.withOpacity(0.9),
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFFe2e8f0),
               height: 1.6,
             ),
           ),
-          SizedBox(height: isWeb ? 15 : 12),
+          const SizedBox(height: 12),
           Text(
             'Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
-            style: TextStyle(
-              fontSize: isWeb ? 15 : (isTablet ? 13 : 12),
-              color: Colors.white.withOpacity(0.9),
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFFe2e8f0),
               height: 1.6,
             ),
           ),
@@ -902,17 +912,19 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              if (isMobile)
-                _buildSkillsGrid()
-              else
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!isMobile) ..[
                     Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
                     SizedBox(width: isWeb ? 30 : 20),
-                    Expanded(flex: isWeb ? 2 : 3, child: _buildSkillsGrid()),
                   ],
-                ),
+                  Expanded(
+                    flex: isMobile ? 1 : (isWeb ? 2 : 3),
+                    child: _buildSkillsGrid(),
+                  ),
+                ],
+              ),
             ],
           ),
         );
