@@ -912,19 +912,22 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isMobile) ...[
-                    Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
-                    SizedBox(width: isWeb ? 30 : 20),
-                  ],
-                  Expanded(
-                    flex: isMobile ? 1 : (isWeb ? 2 : 3),
-                    child: _buildSkillsGrid(),
-                  ),
-                ],
-              ),
+              isMobile
+                  ? Column(
+                      children: [
+                        _buildSkillsSidebar(),
+                        const SizedBox(height: 20),
+                        _buildSkillsGrid(),
+                      ],
+                    )
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
+                        SizedBox(width: isWeb ? 30 : 20),
+                        Expanded(flex: isWeb ? 2 : 3, child: _buildSkillsGrid()),
+                      ],
+                    ),
             ],
           ),
         );
@@ -1715,10 +1718,10 @@ class _PortfolioViewState extends State<PortfolioView>
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: _buildContactCard(
-                                            Icons.web_outlined,
-                                            'Portfolio',
-                                            'shivam20797.github.io',
-                                            'https://shivam20797.github.io/web-app/',
+                                            Icons.code_outlined,
+                                            'GitHub',
+                                            'shivam20797',
+                                            'https://github.com/shivam20797',
                                             isWeb,
                                             isTablet,
                                           ),
@@ -1770,15 +1773,24 @@ class _PortfolioViewState extends State<PortfolioView>
                                         const SizedBox(width: 16),
                                         Expanded(
                                           child: _buildContactCard(
-                                            Icons.web_outlined,
-                                            'Portfolio',
-                                            'shivam20797.github.io',
-                                            'https://shivam20797.github.io/web-app/',
+                                            Icons.code_outlined,
+                                            'GitHub',
+                                            'shivam20797',
+                                            'https://github.com/shivam20797',
                                             isWeb,
                                             isTablet,
                                           ),
                                         ),
                                       ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    _buildContactCard(
+                                      Icons.web_outlined,
+                                      'Portfolio',
+                                      'shivam20797.github.io',
+                                      'https://shivam20797.github.io/web-app/',
+                                      isWeb,
+                                      isTablet,
                                     ),
                                   ],
                                 ),
