@@ -69,9 +69,10 @@ class _PortfolioViewState extends State<PortfolioView>
 
   void _onScroll() {
     int newIndex = 0;
-    
+
     // Check if we're near the bottom (contact section)
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 100) {
       newIndex = 6; // Contact tab
     } else {
       for (int i = 0; i < _sectionKeys.length - 1; i++) {
@@ -87,7 +88,7 @@ class _PortfolioViewState extends State<PortfolioView>
         }
       }
     }
-    
+
     if (newIndex != _currentTabIndex) {
       setState(() {
         _currentTabIndex = newIndex;
@@ -147,7 +148,10 @@ class _PortfolioViewState extends State<PortfolioView>
                   children: [
                     _buildHeader(),
 
-                    Container(key: _sectionKeys[0], child: const SizedBox.shrink()),
+                    Container(
+                      key: _sectionKeys[0],
+                      child: const SizedBox.shrink(),
+                    ),
                     Container(key: _sectionKeys[1], child: _buildSkills()),
                     Container(key: _sectionKeys[2], child: _buildExperience()),
                     Container(key: _sectionKeys[3], child: _buildProjects()),
@@ -216,24 +220,42 @@ class _PortfolioViewState extends State<PortfolioView>
         tween: Tween(begin: 0.0, end: 1.0),
         builder: (context, value, child) {
           return Opacity(
-            opacity: value * 0.6,
+            opacity: value * 0.8,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF60a5fa).withOpacity(0.3),
-                  width: 1,
+                  color: const Color(0xFF60a5fa).withOpacity(0.5),
+                  width: 2,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF60a5fa).withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: const Text(
-                '© Shivam Agrawal',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.copyright,
+                    size: 14,
+                    color: const Color(0xFF60a5fa),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text(
+                    'Shivam Agrawal',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -272,12 +294,20 @@ class _PortfolioViewState extends State<PortfolioView>
                         children: [
                           Expanded(
                             flex: 1,
-                            child: _buildProfileSection(isWeb, isTablet, isMobile),
+                            child: _buildProfileSection(
+                              isWeb,
+                              isTablet,
+                              isMobile,
+                            ),
                           ),
                           SizedBox(width: isWeb ? 40 : 30),
                           Expanded(
                             flex: 2,
-                            child: _buildAboutSection(isWeb, isTablet, isMobile),
+                            child: _buildAboutSection(
+                              isWeb,
+                              isTablet,
+                              isMobile,
+                            ),
                           ),
                         ],
                       ),
@@ -360,19 +390,9 @@ class _PortfolioViewState extends State<PortfolioView>
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildHeaderStatBox(
-              '6+',
-              'Years Experience',
-              isWeb,
-              isTablet,
-            ),
+            _buildHeaderStatBox('6+', 'Years Experience', isWeb, isTablet),
             SizedBox(width: isWeb ? 20 : 15),
-            _buildHeaderStatBox(
-              '30+',
-              'Apps Delivered',
-              isWeb,
-              isTablet,
-            ),
+            _buildHeaderStatBox('30+', 'Apps Delivered', isWeb, isTablet),
           ],
         ),
       ],
@@ -384,17 +404,12 @@ class _PortfolioViewState extends State<PortfolioView>
       padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            const Color(0xFF1e293b),
-            const Color(0xFF334155),
-          ],
+          colors: [const Color(0xFF1e293b), const Color(0xFF334155)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFF60a5fa).withOpacity(0.3),
-        ),
+        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF60a5fa).withOpacity(0.2),
@@ -497,11 +512,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     ),
                   ],
                 ),
-                child: Icon(
-                  icon,
-                  size: 18,
-                  color: Colors.white,
-                ),
+                child: Icon(icon, size: 18, color: Colors.white),
               ),
             ),
           ),
@@ -923,9 +934,15 @@ class _PortfolioViewState extends State<PortfolioView>
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
+                        Expanded(
+                          flex: isWeb ? 1 : 2,
+                          child: _buildSkillsSidebar(),
+                        ),
                         SizedBox(width: isWeb ? 30 : 20),
-                        Expanded(flex: isWeb ? 2 : 3, child: _buildSkillsGrid()),
+                        Expanded(
+                          flex: isWeb ? 2 : 3,
+                          child: _buildSkillsGrid(),
+                        ),
                       ],
                     ),
             ],
@@ -1623,7 +1640,9 @@ class _PortfolioViewState extends State<PortfolioView>
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                      padding: EdgeInsets.all(
+                        isWeb ? 30 : (isTablet ? 24 : 20),
+                      ),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF1e293b), Color(0xFF334155)],
@@ -1823,9 +1842,7 @@ class _PortfolioViewState extends State<PortfolioView>
         decoration: BoxDecoration(
           color: const Color(0xFF0f172a),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: const Color(0xFF60a5fa).withOpacity(0.2),
-          ),
+          border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.2)),
         ),
         child: Column(
           children: [
