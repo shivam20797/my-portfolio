@@ -27,6 +27,7 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(), // Contact section
   ];
 
   @override
@@ -67,22 +68,26 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _onScroll() {
-    final scrollOffset = _scrollController.offset;
     int newIndex = 0;
-
-    for (int i = 0; i < _sectionKeys.length; i++) {
-      final context = _sectionKeys[i].currentContext;
-      if (context != null) {
-        final box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final position = box.localToGlobal(Offset.zero).dy;
-          if (position <= 200) {
-            newIndex = i;
+    
+    // Check if we're near the bottom (contact section)
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+      newIndex = 6; // Contact tab
+    } else {
+      for (int i = 0; i < _sectionKeys.length - 1; i++) {
+        final context = _sectionKeys[i].currentContext;
+        if (context != null) {
+          final box = context.findRenderObject() as RenderBox?;
+          if (box != null) {
+            final position = box.localToGlobal(Offset.zero).dy;
+            if (position <= 200) {
+              newIndex = i;
+            }
           }
         }
       }
     }
-
+    
     if (newIndex != _currentTabIndex) {
       setState(() {
         _currentTabIndex = newIndex;
@@ -92,13 +97,22 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _scrollToSection(int index) {
-    final context = _sectionKeys[index].currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
+    if (index == 6) {
+      // Contact section - scroll to bottom
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
+    } else {
+      final context = _sectionKeys[index].currentContext;
+      if (context != null) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -131,7 +145,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     Container(key: _sectionKeys[3], child: _buildProjects()),
                     Container(key: _sectionKeys[4], child: _buildEducation()),
                     Container(key: _sectionKeys[5], child: _buildLanguages()),
-                    _buildContact(),
+                    Container(key: _sectionKeys[6], child: _buildContact()),
                   ],
                 ),
               ),
@@ -284,23 +298,27 @@ class _PortfolioViewState extends State<PortfolioView>
                       ),
                     ),
                     SizedBox(height: isWeb ? 20 : 15),
-                    Text(
-                      'Shivam Agrawal',
-                      style: TextStyle(
-                        fontSize: isWeb ? 36 : (isTablet ? 28 : 24),
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Shivam Agrawal',
+                            style: TextStyle(
+                              fontSize: isWeb ? 36 : (isTablet ? 28 : 24),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: isWeb ? 10 : 8),
+                          Text(
+                            'Application Developer',
+                            style: TextStyle(
+                              fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
+                              color: const Color(0xFF94a3b8),
+                            ),
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: isWeb ? 10 : 8),
-                    Text(
-                      'Application Developer',
-                      style: TextStyle(
-                        fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
-                        color: const Color(0xFF94a3b8),
-                      ),
-                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: isWeb ? 20 : 15),
                     Container(
@@ -321,30 +339,7 @@ class _PortfolioViewState extends State<PortfolioView>
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 24,
-                                height: 24,
-                                child: Lottie.asset(
-                                  'assets/lottie/coding.json',
-                                  fit: BoxFit.contain,
-                                  repeat: true,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Get In Touch',
-                                style: TextStyle(
-                                  fontSize: isWeb ? 16 : 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: isWeb ? 12 : 10),
+                          SizedBox(height: isWeb ? 8 : 6),
                           if (isMobile)
                             Wrap(
                               spacing: 8,
@@ -432,6 +427,12 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   Widget _buildContactIcon(IconData icon, String url, int delay) {
+    String lottieAsset = 'assets/lottie/profile.json';
+    if (icon == Icons.email) lottieAsset = 'assets/lottie/email.json';
+    if (icon == Icons.phone) lottieAsset = 'assets/lottie/coding.json';
+    if (icon == Icons.work) lottieAsset = 'assets/lottie/profile.json';
+    if (icon == Icons.web) lottieAsset = 'assets/lottie/coding.json';
+    
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 800 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -439,12 +440,13 @@ class _PortfolioViewState extends State<PortfolioView>
         return Transform.scale(
           scale: value,
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 6),
+            margin: const EdgeInsets.symmetric(horizontal: 4),
             child: InkWell(
               onTap: () => _launchUrl(url),
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(20),
               child: Container(
-                padding: const EdgeInsets.all(10),
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
@@ -454,13 +456,19 @@ class _PortfolioViewState extends State<PortfolioView>
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF60a5fa).withOpacity(0.4),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      color: const Color(0xFF60a5fa).withOpacity(0.3),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-                child: Icon(icon, color: Colors.white, size: 18),
+                child: Lottie.asset(
+                  lottieAsset,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  repeat: true,
+                ),
               ),
             ),
           ),
@@ -872,13 +880,7 @@ class _PortfolioViewState extends State<PortfolioView>
               ),
               SizedBox(height: isWeb ? 30 : 20),
               if (isMobile)
-                Column(
-                  children: [
-                    _buildSkillsSidebar(),
-                    const SizedBox(height: 20),
-                    _buildSkillsGrid(),
-                  ],
-                )
+                _buildSkillsGrid()
               else
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -918,27 +920,14 @@ class _PortfolioViewState extends State<PortfolioView>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            child: Lottie.asset(
-                              'assets/lottie/coding.json',
-                              fit: BoxFit.contain,
-                              repeat: true,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            'Skill Categories',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF60a5fa),
-                            ),
-                          ),
-                        ],
+                      Container(
+                        width: 40,
+                        height: 40,
+                        child: Lottie.asset(
+                          'assets/lottie/coding.json',
+                          fit: BoxFit.contain,
+                          repeat: true,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       _buildSkillCategory(
