@@ -350,7 +350,7 @@ class _PortfolioViewState extends State<PortfolioView>
         Text(
           'Senior Mobile Application Developer',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 20,
             fontWeight: FontWeight.w400,
             color: const Color(0xFF94a3b8),
           ),
@@ -915,7 +915,7 @@ class _PortfolioViewState extends State<PortfolioView>
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!isMobile) ..[
+                  if (!isMobile) ...[
                     Expanded(flex: isWeb ? 1 : 2, child: _buildSkillsSidebar()),
                     SizedBox(width: isWeb ? 30 : 20),
                   ],
