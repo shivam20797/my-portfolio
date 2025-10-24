@@ -26,14 +26,13 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
-    GlobalKey(),
     GlobalKey(), // Contact section
   ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _fadeController = AnimationController(
@@ -72,7 +71,7 @@ class _PortfolioViewState extends State<PortfolioView>
     
     // Check if we're near the bottom (contact section)
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
-      newIndex = 6; // Contact tab
+      newIndex = 5; // Contact tab
     } else {
       for (int i = 0; i < _sectionKeys.length - 1; i++) {
         final context = _sectionKeys[i].currentContext;
@@ -97,7 +96,7 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _scrollToSection(int index) {
-    if (index == 6) {
+    if (index == 5) {
       // Contact section - scroll to bottom
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
@@ -139,13 +138,13 @@ class _PortfolioViewState extends State<PortfolioView>
                 child: Column(
                   children: [
                     _buildHeader(),
-                    Container(key: _sectionKeys[0], child: _buildAbout()),
-                    Container(key: _sectionKeys[1], child: _buildSkills()),
-                    Container(key: _sectionKeys[2], child: _buildExperience()),
-                    Container(key: _sectionKeys[3], child: _buildProjects()),
-                    Container(key: _sectionKeys[4], child: _buildEducation()),
-                    Container(key: _sectionKeys[5], child: _buildLanguages()),
-                    Container(key: _sectionKeys[6], child: _buildContact()),
+
+                    Container(key: _sectionKeys[0], child: _buildSkills()),
+                    Container(key: _sectionKeys[1], child: _buildExperience()),
+                    Container(key: _sectionKeys[2], child: _buildProjects()),
+                    Container(key: _sectionKeys[3], child: _buildEducation()),
+                    Container(key: _sectionKeys[4], child: _buildLanguages()),
+                    Container(key: _sectionKeys[5], child: _buildContact()),
                   ],
                 ),
               ),
@@ -187,7 +186,6 @@ class _PortfolioViewState extends State<PortfolioView>
         labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
         tabs: const [
-          Tab(text: 'About'),
           Tab(text: 'Skills'),
           Tab(text: 'Experience'),
           Tab(text: 'Projects'),
@@ -377,8 +375,8 @@ class _PortfolioViewState extends State<PortfolioView>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF0f172a),
             const Color(0xFF1e293b),
+            const Color(0xFF334155),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -416,7 +414,7 @@ class _PortfolioViewState extends State<PortfolioView>
               Text(
                 'About Me',
                 style: TextStyle(
-                  fontSize: isWeb ? 24 : (isTablet ? 20 : 18),
+                  fontSize: isWeb ? 20 : (isTablet ? 18 : 16),
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -427,8 +425,8 @@ class _PortfolioViewState extends State<PortfolioView>
           Text(
             'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
             style: TextStyle(
-              fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
-              color: const Color(0xFF94a3b8),
+              fontSize: isWeb ? 15 : (isTablet ? 13 : 12),
+              color: Colors.white.withOpacity(0.9),
               height: 1.6,
             ),
           ),
@@ -436,8 +434,8 @@ class _PortfolioViewState extends State<PortfolioView>
           Text(
             'Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
             style: TextStyle(
-              fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
-              color: const Color(0xFF94a3b8),
+              fontSize: isWeb ? 15 : (isTablet ? 13 : 12),
+              color: Colors.white.withOpacity(0.9),
               height: 1.6,
             ),
           ),
@@ -1587,6 +1585,7 @@ class _PortfolioViewState extends State<PortfolioView>
         final isWeb = constraints.maxWidth > 1200;
         final isTablet =
             constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isMobile = constraints.maxWidth <= 768;
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
@@ -1609,61 +1608,152 @@ class _PortfolioViewState extends State<PortfolioView>
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF1e293b), Color(0xFF334155)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: const Color(0xFF60a5fa).withOpacity(0.3),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF60a5fa).withOpacity(0.15),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
+                            color: const Color(0xFF60a5fa).withOpacity(0.2),
+                            blurRadius: 25,
+                            offset: const Offset(0, 10),
                           ),
                         ],
                       ),
                       child: Column(
                         children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF60a5fa).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Icon(
+                              Icons.connect_without_contact,
+                              size: isWeb ? 32 : (isTablet ? 28 : 24),
+                              color: const Color(0xFF60a5fa),
+                            ),
+                          ),
+                          SizedBox(height: isWeb ? 16 : 12),
                           Text(
-                            '📧 Let\'s Connect',
+                            'Let\'s Connect',
                             style: TextStyle(
-                              fontSize: isWeb ? 20 : 18,
+                              fontSize: isWeb ? 24 : (isTablet ? 20 : 18),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _buildContactIcon(
-                                Icons.email,
-                                'mailto:shivamcsaiet316@gmail.com',
-                                0,
-                              ),
-                              _buildContactIcon(
-                                Icons.phone,
-                                'tel:+919057448064',
-                                100,
-                              ),
-                              _buildContactIcon(
-                                Icons.work,
-                                'https://www.linkedin.com/in/shivam20797',
-                                200,
-                              ),
-                              _buildContactIcon(
-                                Icons.web,
-                                'https://shivam20797.github.io/web-app/',
-                                300,
-                              ),
-                            ],
+                          SizedBox(height: isWeb ? 8 : 6),
+                          Text(
+                            'Ready to collaborate? Get in touch!',
+                            style: TextStyle(
+                              fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
+                              color: const Color(0xFF94a3b8),
+                            ),
                           ),
+                          SizedBox(height: isWeb ? 30 : 24),
+                          isMobile
+                              ? Column(
+                                  children: [
+                                    _buildContactCard(
+                                      Icons.email_outlined,
+                                      'Email',
+                                      'shivamcsaiet316@gmail.com',
+                                      'mailto:shivamcsaiet316@gmail.com',
+                                      isWeb,
+                                      isTablet,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    _buildContactCard(
+                                      Icons.phone_outlined,
+                                      'Phone',
+                                      '+91 90574 48064',
+                                      'tel:+919057448064',
+                                      isWeb,
+                                      isTablet,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    _buildContactCard(
+                                      Icons.work_outline,
+                                      'LinkedIn',
+                                      'shivam20797',
+                                      'https://www.linkedin.com/in/shivam20797',
+                                      isWeb,
+                                      isTablet,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    _buildContactCard(
+                                      Icons.web_outlined,
+                                      'Portfolio',
+                                      'shivam20797.github.io',
+                                      'https://shivam20797.github.io/web-app/',
+                                      isWeb,
+                                      isTablet,
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.email_outlined,
+                                            'Email',
+                                            'shivamcsaiet316@gmail.com',
+                                            'mailto:shivamcsaiet316@gmail.com',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.phone_outlined,
+                                            'Phone',
+                                            '+91 90574 48064',
+                                            'tel:+919057448064',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.work_outline,
+                                            'LinkedIn',
+                                            'shivam20797',
+                                            'https://www.linkedin.com/in/shivam20797',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.web_outlined,
+                                            'Portfolio',
+                                            'shivam20797.github.io',
+                                            'https://shivam20797.github.io/web-app/',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                         ],
                       ),
                     ),
@@ -1674,6 +1764,59 @@ class _PortfolioViewState extends State<PortfolioView>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildContactCard(
+    IconData icon,
+    String title,
+    String subtitle,
+    String url,
+    bool isWeb,
+    bool isTablet,
+  ) {
+    return InkWell(
+      onTap: () => _launchUrl(url),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: EdgeInsets.all(isWeb ? 16 : (isTablet ? 14 : 12)),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0f172a),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color(0xFF60a5fa).withOpacity(0.2),
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              size: isWeb ? 24 : (isTablet ? 22 : 20),
+              color: const Color(0xFF60a5fa),
+            ),
+            SizedBox(height: isWeb ? 8 : 6),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: isWeb ? 14 : (isTablet ? 13 : 12),
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: isWeb ? 4 : 2),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
+                color: const Color(0xFF94a3b8),
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
