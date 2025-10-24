@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'app/modules/views/home_view.dart';
 import 'app/modules/views/portfolio_view.dart';
 
 void main() {
