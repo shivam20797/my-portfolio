@@ -74346,7 +74346,7 @@ j=A.c0(e,a4?30:24,e)
 i=f.a
 h=f.c
 g=t.p
-return A.z0(A.by(A.ci(A.b([n,o,m,l,k,j,f.d?A.ci(A.b([A.eZ(A.b([A.eP(i.iT(B.lq,"Email",d,c,a4,h),1),B.jg,A.eP(i.iT(B.lr,"Phone",b,a,a4,h),1)],g),B.w,B.u,B.ai),B.jh,A.eZ(A.b([A.eP(i.iT(B.lo,a0,a1,a2,a4,h),1),B.jg,A.eP(i.iT(B.lp,"GitHub",a1,a3,a4,h),1)],g),B.w,B.u,B.ai)],g),B.w,B.u):A.ci(A.b([A.eZ(A.b([A.eP(i.iT(B.lq,"Email",d,c,a4,h),1),B.wE,A.eP(i.iT(B.lr,"Phone",b,a,a4,h),1)],g),B.w,B.u,B.ai),B.Ke,A.eZ(A.b([A.eP(i.iT(B.lo,a0,a1,a2,a4,h),1),B.wE,A.eP(i.iT(B.lp,"GitHub",a1,a3,a4,h),1)],g),B.w,B.u,B.ai),B.jh,i.iT(B.BU,"Portfolio","shivam20797.github.io","https://shivam20797.github.io/web-app/",a4,h)],g),B.w,B.u)],g),B.w,B.u),e,new A.bH(e,e,q,r,p,B.CG,B.F),e,e,e,new A.aQ(s,s,s,s),e),a6)},
+return A.z0(A.by(A.ci(A.b([n,o,m,l,k,j,f.d?A.ci(A.b([A.eZ(A.b([A.eP(i.iT(B.lq,"Email",d,c,a4,h),1),B.jg,A.eP(i.iT(B.lr,"Phone",b,a,a4,h),1)],g),B.w,B.u,B.ai),B.jh,A.eZ(A.b([A.eP(i.iT(B.lo,a0,a1,a2,a4,h),1),B.jg,A.eP(i.iT(B.lp,"GitHub",a1,a3,a4,h),1)],g),B.w,B.u,B.ai)],g),B.w,B.u):A.ci(A.b([A.eZ(A.b([A.eP(i.iT(B.lq,"Email",d,c,a4,h),1),B.wE,A.eP(i.iT(B.lr,"Phone",b,a,a4,h),1)],g),B.w,B.u,B.ai),B.Ke,A.eZ(A.b([A.eP(i.iT(B.lo,a0,a1,a2,a4,h),1),B.wE,A.eP(i.iT(B.lp,"GitHub",a1,a3,a4,h),1)],g),B.w,B.u,B.ai),B.jh,i.iT(B.BU,"Portfolio","shivam20797.github.io","https://shivam20797.github.io/my-portfolio/",a4,h)],g),B.w,B.u)],g),B.w,B.u),e,new A.bH(e,e,q,r,p,B.CG,B.F),e,e,e,new A.aQ(s,s,s,s),e),a6)},
 $S:13}
 A.ae1.prototype={
 $0(){return this.a.mD(this.b)},
@@ -74498,7 +74498,7 @@ if(r!=null)r.J(0,s.ges())
 s.aj$=null
 s.aO()}}
 A.H_.prototype={
-S(a){return new A.vK(new A.xj(null),"WebView App Generator",!1,null)}}
+S(a){return new A.vK(new A.xj(null),"My Portfolio",!1,null)}}
 A.Ei.prototype={
 a7U(a){var s,r,q=A.ajK(a,this.a)
 q.PI()
