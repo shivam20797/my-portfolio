@@ -1807,7 +1807,7 @@ class _PortfolioViewState extends State<PortfolioView>
                                       Icons.web_outlined,
                                       'Portfolio',
                                       'shivam20797.github.io',
-                                      'https://shivam20797.github.io/web-app/',
+                                      'https://shivam20797.github.io/my-portfolio/',
                                       isWeb,
                                       isTablet,
                                     ),

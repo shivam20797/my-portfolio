@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'WebView App Generator',
+      title: 'My Portfolio',
       debugShowCheckedModeBanner: false,
       home: PortfolioView(),
     );
