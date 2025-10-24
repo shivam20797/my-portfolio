@@ -251,173 +251,28 @@ class _PortfolioViewState extends State<PortfolioView>
               child: Container(
                 padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
                 decoration: const BoxDecoration(color: Color(0xFF1e293b)),
-                child: Column(
-                  children: [
-                    Hero(
-                      tag: 'profile',
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: TweenAnimationBuilder<double>(
-                          duration: const Duration(milliseconds: 2000),
-                          tween: Tween(begin: 0.0, end: 1.0),
-                          builder: (context, animValue, child) {
-                            return Transform.rotate(
-                              angle: animValue * 0.1,
-                              child: Container(
-                                width: isWeb ? 120 : (isTablet ? 100 : 80),
-                                height: isWeb ? 120 : (isTablet ? 100 : 80),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      const Color(0xFF60a5fa),
-                                      const Color(0xFF3b82f6),
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                child: Lottie.asset(
-                                  'assets/lottie/profile.json',
-                                  fit: BoxFit.contain,
-                                  repeat: true,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: isWeb ? 20 : 15),
-                    Center(
-                      child: Column(
+                child: isMobile
+                    ? Column(
                         children: [
-                          Text(
-                            'Shivam Agrawal',
-                            style: TextStyle(
-                              fontSize: isWeb ? 36 : (isTablet ? 28 : 24),
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          _buildProfileSection(isWeb, isTablet, isMobile),
+                          const SizedBox(height: 20),
+                          _buildAboutSection(isWeb, isTablet, isMobile),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: _buildProfileSection(isWeb, isTablet, isMobile),
                           ),
-                          SizedBox(height: isWeb ? 10 : 8),
-                          Text(
-                            'Application Developer',
-                            style: TextStyle(
-                              fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
-                              color: const Color(0xFF94a3b8),
-                            ),
+                          SizedBox(width: isWeb ? 40 : 30),
+                          Expanded(
+                            flex: 2,
+                            child: _buildAboutSection(isWeb, isTablet, isMobile),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: isWeb ? 20 : 15),
-                    Container(
-                      padding: EdgeInsets.all(isWeb ? 20 : 16),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color(0xFF60a5fa).withOpacity(0.1),
-                            const Color(0xFF3b82f6).withOpacity(0.1),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: const Color(0xFF60a5fa).withOpacity(0.3),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: isWeb ? 8 : 6),
-                          if (isMobile)
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              alignment: WrapAlignment.center,
-                              children: [
-                                _buildContactIcon(
-                                  Icons.email,
-                                  'mailto:shivamcsaiet316@gmail.com',
-                                  0,
-                                ),
-                                _buildContactIcon(
-                                  Icons.phone,
-                                  'tel:+919057448064',
-                                  100,
-                                ),
-                                _buildContactIcon(
-                                  Icons.work,
-                                  'https://www.linkedin.com/in/shivam20797',
-                                  200,
-                                ),
-                                _buildContactIcon(
-                                  Icons.web,
-                                  'https://shivam20797.github.io/web-app/',
-                                  300,
-                                ),
-                              ],
-                            )
-                          else
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _buildContactIcon(
-                                  Icons.email,
-                                  'mailto:shivamcsaiet316@gmail.com',
-                                  0,
-                                ),
-                                _buildContactIcon(
-                                  Icons.phone,
-                                  'tel:+919057448064',
-                                  100,
-                                ),
-                                _buildContactIcon(
-                                  Icons.work,
-                                  'https://www.linkedin.com/in/shivam20797',
-                                  200,
-                                ),
-                                _buildContactIcon(
-                                  Icons.web,
-                                  'https://shivam20797.github.io/web-app/',
-                                  300,
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: isWeb ? 20 : 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildHeaderStatBox(
-                          '6+',
-                          'Years Experience',
-                          isWeb,
-                          isTablet,
-                        ),
-                        SizedBox(width: isWeb ? 20 : 15),
-                        _buildHeaderStatBox(
-                          '30+',
-                          'Apps Delivered',
-                          isWeb,
-                          isTablet,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
               ),
             );
           },
@@ -426,13 +281,184 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
+  Widget _buildProfileSection(bool isWeb, bool isTablet, bool isMobile) {
+    return Column(
+      children: [
+        Hero(
+          tag: 'profile',
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: TweenAnimationBuilder<double>(
+              duration: const Duration(milliseconds: 2000),
+              tween: Tween(begin: 0.0, end: 1.0),
+              builder: (context, animValue, child) {
+                return Transform.rotate(
+                  angle: animValue * 0.1,
+                  child: Container(
+                    width: isWeb ? 120 : (isTablet ? 100 : 80),
+                    height: isWeb ? 120 : (isTablet ? 100 : 80),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF60a5fa),
+                          const Color(0xFF3b82f6),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: Lottie.asset(
+                      'assets/lottie/profile.json',
+                      fit: BoxFit.contain,
+                      repeat: true,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        SizedBox(height: isWeb ? 20 : 15),
+        Text(
+          'Shivam Agrawal',
+          style: TextStyle(
+            fontSize: isWeb ? 36 : (isTablet ? 28 : 24),
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: isWeb ? 10 : 8),
+        Text(
+          'Senior Mobile Application Developer',
+          style: TextStyle(
+            fontSize: isWeb ? 20 : (isTablet ? 16 : 14),
+            color: const Color(0xFF94a3b8),
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: isWeb ? 20 : 15),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildHeaderStatBox(
+              '6+',
+              'Years Experience',
+              isWeb,
+              isTablet,
+            ),
+            SizedBox(width: isWeb ? 20 : 15),
+            _buildHeaderStatBox(
+              '30+',
+              'Apps Delivered',
+              isWeb,
+              isTablet,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAboutSection(bool isWeb, bool isTablet, bool isMobile) {
+    return Container(
+      padding: EdgeInsets.all(isWeb ? 24 : (isTablet ? 20 : 16)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF0f172a),
+            const Color(0xFF1e293b),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFF60a5fa).withOpacity(0.3),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF60a5fa).withOpacity(0.2),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF60a5fa).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.person_outline,
+                  color: Color(0xFF60a5fa),
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'About Me',
+                style: TextStyle(
+                  fontSize: isWeb ? 24 : (isTablet ? 20 : 18),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: isWeb ? 20 : 15),
+          Text(
+            'Experienced Android and Flutter Developer with a track record of delivering 30+ mobile apps using Kotlin, Java, and Flutter. Proficient in MVVM architecture, RESTful APIs, Firebase, and Play Store deployment.',
+            style: TextStyle(
+              fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+              color: const Color(0xFF94a3b8),
+              height: 1.6,
+            ),
+          ),
+          SizedBox(height: isWeb ? 15 : 12),
+          Text(
+            'Adept at fostering collaboration across teams to produce high-quality, scalable Android solutions with optimal performance and sleek UI/UX design.',
+            style: TextStyle(
+              fontSize: isWeb ? 16 : (isTablet ? 14 : 13),
+              color: const Color(0xFF94a3b8),
+              height: 1.6,
+            ),
+          ),
+          SizedBox(height: isWeb ? 20 : 15),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildSkillChip('Kotlin'),
+              _buildSkillChip('Flutter'),
+              _buildSkillChip('Android'),
+              _buildSkillChip('MVVM'),
+              _buildSkillChip('Firebase'),
+              _buildSkillChip('REST APIs'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildContactIcon(IconData icon, String url, int delay) {
-    String lottieAsset = 'assets/lottie/profile.json';
-    if (icon == Icons.email) lottieAsset = 'assets/lottie/email.json';
-    if (icon == Icons.phone) lottieAsset = 'assets/lottie/coding.json';
-    if (icon == Icons.work) lottieAsset = 'assets/lottie/profile.json';
-    if (icon == Icons.web) lottieAsset = 'assets/lottie/coding.json';
-    
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 800 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -462,12 +488,10 @@ class _PortfolioViewState extends State<PortfolioView>
                     ),
                   ],
                 ),
-                child: Lottie.asset(
-                  lottieAsset,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.contain,
-                  repeat: true,
+                child: Icon(
+                  icon,
+                  size: 18,
+                  color: Colors.white,
                 ),
               ),
             ),
