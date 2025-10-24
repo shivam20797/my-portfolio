@@ -1674,40 +1674,56 @@ class _PortfolioViewState extends State<PortfolioView>
                           isMobile
                               ? Column(
                                   children: [
-                                    _buildContactCard(
-                                      Icons.email_outlined,
-                                      'Email',
-                                      'shivamcsaiet316@gmail.com',
-                                      'mailto:shivamcsaiet316@gmail.com',
-                                      isWeb,
-                                      isTablet,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.email_outlined,
+                                            'Email',
+                                            'shivamcsaiet316@gmail.com',
+                                            'mailto:shivamcsaiet316@gmail.com',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.phone_outlined,
+                                            'Phone',
+                                            '+91 90574 48064',
+                                            'tel:+919057448064',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 16),
-                                    _buildContactCard(
-                                      Icons.phone_outlined,
-                                      'Phone',
-                                      '+91 90574 48064',
-                                      'tel:+919057448064',
-                                      isWeb,
-                                      isTablet,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    _buildContactCard(
-                                      Icons.work_outline,
-                                      'LinkedIn',
-                                      'shivam20797',
-                                      'https://www.linkedin.com/in/shivam20797',
-                                      isWeb,
-                                      isTablet,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    _buildContactCard(
-                                      Icons.web_outlined,
-                                      'Portfolio',
-                                      'shivam20797.github.io',
-                                      'https://shivam20797.github.io/web-app/',
-                                      isWeb,
-                                      isTablet,
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.work_outline,
+                                            'LinkedIn',
+                                            'shivam20797',
+                                            'https://www.linkedin.com/in/shivam20797',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: _buildContactCard(
+                                            Icons.web_outlined,
+                                            'Portfolio',
+                                            'shivam20797.github.io',
+                                            'https://shivam20797.github.io/web-app/',
+                                            isWeb,
+                                            isTablet,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 )
@@ -1819,11 +1835,11 @@ class _PortfolioViewState extends State<PortfolioView>
             Text(
               subtitle,
               style: TextStyle(
-                fontSize: isWeb ? 11 : (isTablet ? 10 : 9),
+                fontSize: isWeb ? 11 : (isTablet ? 10 : 8),
                 color: const Color(0xFF94a3b8),
               ),
               textAlign: TextAlign.center,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ],
