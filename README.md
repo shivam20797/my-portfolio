@@ -50,8 +50,8 @@ A modern, responsive Flutter web application showcasing a professional portfolio
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/my_reminder.git
-   cd my_reminder
+   git clone https://github.com/yourusername/my-portfolio.git
+   cd my-portfolio
    ```
 
 2. **Install dependencies**
