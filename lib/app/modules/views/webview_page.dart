@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:html' as html;
+import 'dart:ui_web' as ui;
 
-import '../controllers/web_controller';
+import '../controllers/web_controller.dart';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({super.key});
@@ -13,29 +15,67 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   final WebController controller = Get.find<WebController>();
-  late WebViewController webViewController;
+  String viewId = 'webview-${DateTime.now().millisecondsSinceEpoch}';
 
   @override
   void initState() {
     super.initState();
-    webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(controller.websiteUrl.value));
+    if (kIsWeb) {
+      _registerWebView();
+    }
+  }
+
+  void _registerWebView() {
+    ui.platformViewRegistry.registerViewFactory(
+      viewId,
+      (int id) {
+        final iframe = html.IFrameElement()
+          ..src = controller.websiteUrl.value
+          ..style.border = 'none'
+          ..style.width = '100%'
+          ..style.height = '100%';
+        return iframe;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.websiteUrl.value),
+        backgroundColor: const Color(0xFF1e293b),
+        foregroundColor: Colors.white,
+        title: const Text(
+          'Website Viewer',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => webViewController.reload(),
+            onPressed: () {
+              setState(() {
+                viewId = 'webview-${DateTime.now().millisecondsSinceEpoch}';
+                _registerWebView();
+              });
+            },
           ),
         ],
       ),
-      body: WebViewWidget(controller: webViewController),
+      body: kIsWeb
+          ? HtmlElementView(viewType: viewId)
+          : const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.web, size: 64, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text(
+                    'WebView not supported on this platform',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
