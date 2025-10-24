@@ -27,7 +27,6 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
-    GlobalKey(), // Contact section
   ];
 
   @override
@@ -70,25 +69,20 @@ class _PortfolioViewState extends State<PortfolioView>
   void _onScroll() {
     final scrollOffset = _scrollController.offset;
     int newIndex = 0;
-    
-    // Check if we're near the bottom (contact section)
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
-      newIndex = 6; // Contact tab
-    } else {
-      for (int i = 0; i < _sectionKeys.length - 1; i++) {
-        final context = _sectionKeys[i].currentContext;
-        if (context != null) {
-          final box = context.findRenderObject() as RenderBox?;
-          if (box != null) {
-            final position = box.localToGlobal(Offset.zero).dy;
-            if (position <= 200) {
-              newIndex = i;
-            }
+
+    for (int i = 0; i < _sectionKeys.length; i++) {
+      final context = _sectionKeys[i].currentContext;
+      if (context != null) {
+        final box = context.findRenderObject() as RenderBox?;
+        if (box != null) {
+          final position = box.localToGlobal(Offset.zero).dy;
+          if (position <= 200) {
+            newIndex = i;
           }
         }
       }
     }
-    
+
     if (newIndex != _currentTabIndex) {
       setState(() {
         _currentTabIndex = newIndex;
@@ -98,22 +92,13 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _scrollToSection(int index) {
-    if (index == 6) {
-      // Contact section - scroll to bottom
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
+    final context = _sectionKeys[index].currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
-    } else {
-      final context = _sectionKeys[index].currentContext;
-      if (context != null) {
-        Scrollable.ensureVisible(
-          context,
-          duration: const Duration(milliseconds: 800),
-          curve: Curves.easeInOut,
-        );
-      }
     }
   }
 
@@ -146,7 +131,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     Container(key: _sectionKeys[3], child: _buildProjects()),
                     Container(key: _sectionKeys[4], child: _buildEducation()),
                     Container(key: _sectionKeys[5], child: _buildLanguages()),
-                    Container(key: _sectionKeys[6], child: _buildContact()),
+                    _buildContact(),
                   ],
                 ),
               ),
@@ -197,7 +182,6 @@ class _PortfolioViewState extends State<PortfolioView>
           Tab(text: 'Contact'),
         ],
       ),
-
     );
   }
 
@@ -240,7 +224,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return TweenAnimationBuilder<double>(
@@ -251,9 +236,7 @@ class _PortfolioViewState extends State<PortfolioView>
               scale: value,
               child: Container(
                 padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF1e293b),
-                ),
+                decoration: const BoxDecoration(color: Color(0xFF1e293b)),
                 child: Column(
                   children: [
                     Hero(
@@ -368,20 +351,52 @@ class _PortfolioViewState extends State<PortfolioView>
                               runSpacing: 8,
                               alignment: WrapAlignment.center,
                               children: [
-                                _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                                _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                                _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                                _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                                _buildContactIcon(
+                                  Icons.email,
+                                  'mailto:shivamcsaiet316@gmail.com',
+                                  0,
+                                ),
+                                _buildContactIcon(
+                                  Icons.phone,
+                                  'tel:+919057448064',
+                                  100,
+                                ),
+                                _buildContactIcon(
+                                  Icons.work,
+                                  'https://www.linkedin.com/in/shivam20797',
+                                  200,
+                                ),
+                                _buildContactIcon(
+                                  Icons.web,
+                                  'https://shivam20797.github.io/web-app/',
+                                  300,
+                                ),
                               ],
                             )
                           else
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                                _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                                _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                                _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                                _buildContactIcon(
+                                  Icons.email,
+                                  'mailto:shivamcsaiet316@gmail.com',
+                                  0,
+                                ),
+                                _buildContactIcon(
+                                  Icons.phone,
+                                  'tel:+919057448064',
+                                  100,
+                                ),
+                                _buildContactIcon(
+                                  Icons.work,
+                                  'https://www.linkedin.com/in/shivam20797',
+                                  200,
+                                ),
+                                _buildContactIcon(
+                                  Icons.web,
+                                  'https://shivam20797.github.io/web-app/',
+                                  300,
+                                ),
                               ],
                             ),
                         ],
@@ -391,9 +406,19 @@ class _PortfolioViewState extends State<PortfolioView>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildHeaderStatBox('6+', 'Years Experience', isWeb, isTablet),
+                        _buildHeaderStatBox(
+                          '6+',
+                          'Years Experience',
+                          isWeb,
+                          isTablet,
+                        ),
                         SizedBox(width: isWeb ? 20 : 15),
-                        _buildHeaderStatBox('30+', 'Apps Delivered', isWeb, isTablet),
+                        _buildHeaderStatBox(
+                          '30+',
+                          'Apps Delivered',
+                          isWeb,
+                          isTablet,
+                        ),
                       ],
                     ),
                   ],
@@ -423,10 +448,7 @@ class _PortfolioViewState extends State<PortfolioView>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF60a5fa),
-                      const Color(0xFF3b82f6),
-                    ],
+                    colors: [const Color(0xFF60a5fa), const Color(0xFF3b82f6)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -471,7 +493,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -499,8 +522,10 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = MediaQuery.of(context).size.width > 1200;
-        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
-        
+        final isTablet =
+            MediaQuery.of(context).size.width > 768 &&
+            MediaQuery.of(context).size.width <= 1200;
+
         return TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 800),
           tween: Tween(begin: 0.0, end: 1.0),
@@ -518,7 +543,9 @@ class _PortfolioViewState extends State<PortfolioView>
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                    border: Border.all(
+                      color: const Color(0xFF60a5fa).withOpacity(0.3),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF60a5fa).withOpacity(0.2),
@@ -540,7 +567,9 @@ class _PortfolioViewState extends State<PortfolioView>
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF60a5fa).withOpacity(0.4),
+                                    color: const Color(
+                                      0xFF60a5fa,
+                                    ).withOpacity(0.4),
                                     blurRadius: 25,
                                     spreadRadius: 5,
                                   ),
@@ -552,7 +581,10 @@ class _PortfolioViewState extends State<PortfolioView>
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: const LinearGradient(
-                                    colors: [Color(0xFF60a5fa), Color(0xFF3b82f6)],
+                                    colors: [
+                                      Color(0xFF60a5fa),
+                                      Color(0xFF3b82f6),
+                                    ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
@@ -584,8 +616,10 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = MediaQuery.of(context).size.width > 1200;
-        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
-        
+        final isTablet =
+            MediaQuery.of(context).size.width > 768 &&
+            MediaQuery.of(context).size.width <= 1200;
+
         return Column(
           children: [
             _buildStatRow(Icons.work_outline, '6+ Years', 'Experience', 0),
@@ -653,8 +687,10 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = MediaQuery.of(context).size.width > 1200;
-        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
-        
+        final isTablet =
+            MediaQuery.of(context).size.width > 768 &&
+            MediaQuery.of(context).size.width <= 1200;
+
         return TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 1000),
           tween: Tween(begin: 0.0, end: 1.0),
@@ -672,7 +708,9 @@ class _PortfolioViewState extends State<PortfolioView>
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.2)),
+                    border: Border.all(
+                      color: const Color(0xFF60a5fa).withOpacity(0.2),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -744,7 +782,7 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = MediaQuery.of(context).size.width > 1200;
-        
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -811,13 +849,12 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-
-
   Widget _buildSkills() {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -904,11 +941,27 @@ class _PortfolioViewState extends State<PortfolioView>
                         ],
                       ),
                       const SizedBox(height: 20),
-                      _buildSkillCategory('Mobile Development', Icons.phone_android, ['Kotlin', 'Java', 'Dart']),
-                      _buildSkillCategory('Architecture', Icons.architecture, ['MVVM', 'Clean Architecture']),
-                      _buildSkillCategory('Backend & APIs', Icons.api, ['Retrofit', 'REST APIs']),
-                      _buildSkillCategory('Database', Icons.storage, ['Room', 'SQLite']),
-                      _buildSkillCategory('Tools', Icons.build, ['Android Studio', 'Git']),
+                      _buildSkillCategory(
+                        'Mobile Development',
+                        Icons.phone_android,
+                        ['Kotlin', 'Java', 'Dart'],
+                      ),
+                      _buildSkillCategory('Architecture', Icons.architecture, [
+                        'MVVM',
+                        'Clean Architecture',
+                      ]),
+                      _buildSkillCategory('Backend & APIs', Icons.api, [
+                        'Retrofit',
+                        'REST APIs',
+                      ]),
+                      _buildSkillCategory('Database', Icons.storage, [
+                        'Room',
+                        'SQLite',
+                      ]),
+                      _buildSkillCategory('Tools', Icons.build, [
+                        'Android Studio',
+                        'Git',
+                      ]),
                     ],
                   ),
                 ),
@@ -919,8 +972,6 @@ class _PortfolioViewState extends State<PortfolioView>
       },
     );
   }
-
-
 
   Widget _buildSkillCategory(String title, IconData icon, List<String> skills) {
     return Container(
@@ -968,10 +1019,25 @@ class _PortfolioViewState extends State<PortfolioView>
           runSpacing: spacing,
           alignment: WrapAlignment.center,
           children: [
-            _buildAnimatedSkillCard(Icons.android, 'Kotlin', 'Native Android', 0),
+            _buildAnimatedSkillCard(
+              Icons.android,
+              'Kotlin',
+              'Native Android',
+              0,
+            ),
             _buildAnimatedSkillCard(Icons.code, 'Java', 'Object-Oriented', 100),
-            _buildAnimatedSkillCard(Icons.flutter_dash, 'Flutter', 'Cross Platform', 200),
-            _buildAnimatedSkillCard(Icons.architecture, 'MVVM', 'Architecture', 300),
+            _buildAnimatedSkillCard(
+              Icons.flutter_dash,
+              'Flutter',
+              'Cross Platform',
+              200,
+            ),
+            _buildAnimatedSkillCard(
+              Icons.architecture,
+              'MVVM',
+              'Architecture',
+              300,
+            ),
             _buildAnimatedSkillCard(Icons.api, 'Retrofit', 'REST APIs', 400),
             _buildAnimatedSkillCard(Icons.cloud, 'Firebase', 'Backend', 500),
           ],
@@ -980,7 +1046,12 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedSkillCard(IconData icon, String title, String subtitle, int delay) {
+  Widget _buildAnimatedSkillCard(
+    IconData icon,
+    String title,
+    String subtitle,
+    int delay,
+  ) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 600 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -997,7 +1068,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
@@ -1033,7 +1105,13 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildAnimatedExperienceCard(String role, String company, String duration, String description, int delay) {
+  Widget _buildAnimatedExperienceCard(
+    String role,
+    String company,
+    String duration,
+    String description,
+    int delay,
+  ) {
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 800 + delay),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -1096,7 +1174,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
@@ -1118,7 +1197,9 @@ class _PortfolioViewState extends State<PortfolioView>
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                      padding: EdgeInsets.all(
+                        isWeb ? 30 : (isTablet ? 24 : 20),
+                      ),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF0f172a), Color(0xFF1e293b)],
@@ -1126,7 +1207,9 @@ class _PortfolioViewState extends State<PortfolioView>
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        border: Border.all(
+                          color: const Color(0xFF60a5fa).withOpacity(0.3),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF60a5fa).withOpacity(0.2),
@@ -1139,7 +1222,9 @@ class _PortfolioViewState extends State<PortfolioView>
                         children: [
                           Text(
                             '🎓',
-                            style: TextStyle(fontSize: isWeb ? 50 : (isTablet ? 45 : 40)),
+                            style: TextStyle(
+                              fontSize: isWeb ? 50 : (isTablet ? 45 : 40),
+                            ),
                           ),
                           SizedBox(height: isWeb ? 16 : 12),
                           Text(
@@ -1174,7 +1259,10 @@ class _PortfolioViewState extends State<PortfolioView>
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
-                                    colors: [Color(0xFF10b981), Color(0xFF059669)],
+                                    colors: [
+                                      Color(0xFF10b981),
+                                      Color(0xFF059669),
+                                    ],
                                   ),
                                   borderRadius: BorderRadius.circular(3),
                                 ),
@@ -1185,8 +1273,18 @@ class _PortfolioViewState extends State<PortfolioView>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _buildEducationDetail(Icons.location_on, 'Rajasthan Technical University', isWeb, isTablet),
-                              _buildEducationDetail(Icons.calendar_today, '2014 - 2018', isWeb, isTablet),
+                              _buildEducationDetail(
+                                Icons.location_on,
+                                'Rajasthan Technical University',
+                                isWeb,
+                                isTablet,
+                              ),
+                              _buildEducationDetail(
+                                Icons.calendar_today,
+                                '2014 - 2018',
+                                isWeb,
+                                isTablet,
+                              ),
                             ],
                           ),
                         ],
@@ -1202,15 +1300,16 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildEducationDetail(IconData icon, String text, bool isWeb, bool isTablet) {
+  Widget _buildEducationDetail(
+    IconData icon,
+    String text,
+    bool isWeb,
+    bool isTablet,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
-          size: isWeb ? 16 : 14,
-          color: const Color(0xFF60a5fa),
-        ),
+        Icon(icon, size: isWeb ? 16 : 14, color: const Color(0xFF60a5fa)),
         const SizedBox(width: 6),
         Text(
           text,
@@ -1227,7 +1326,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -1251,7 +1351,9 @@ class _PortfolioViewState extends State<PortfolioView>
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      padding: EdgeInsets.all(isWeb ? 30 : (isTablet ? 24 : 20)),
+                      padding: EdgeInsets.all(
+                        isWeb ? 30 : (isTablet ? 24 : 20),
+                      ),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF0f172a), Color(0xFF1e293b)],
@@ -1259,7 +1361,9 @@ class _PortfolioViewState extends State<PortfolioView>
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        border: Border.all(
+                          color: const Color(0xFF60a5fa).withOpacity(0.3),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF60a5fa).withOpacity(0.2),
@@ -1269,20 +1373,44 @@ class _PortfolioViewState extends State<PortfolioView>
                         ],
                       ),
                       child: isMobile
-                        ? Column(
-                            children: [
-                              _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9),
-                              const SizedBox(height: 20),
-                              _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0),
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Expanded(child: _buildLanguageItem('🇺🇸', 'English', 'Professional Working Proficiency', 0.9)),
-                              const SizedBox(width: 30),
-                              Expanded(child: _buildLanguageItem('🇮🇳', 'Hindi', 'Full Professional Proficiency', 1.0)),
-                            ],
-                          ),
+                          ? Column(
+                              children: [
+                                _buildLanguageItem(
+                                  '🇺🇸',
+                                  'English',
+                                  'Professional Working Proficiency',
+                                  0.9,
+                                ),
+                                const SizedBox(height: 20),
+                                _buildLanguageItem(
+                                  '🇮🇳',
+                                  'Hindi',
+                                  'Full Professional Proficiency',
+                                  1.0,
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: _buildLanguageItem(
+                                    '🇺🇸',
+                                    'English',
+                                    'Professional Working Proficiency',
+                                    0.9,
+                                  ),
+                                ),
+                                const SizedBox(width: 30),
+                                Expanded(
+                                  child: _buildLanguageItem(
+                                    '🇮🇳',
+                                    'Hindi',
+                                    'Full Professional Proficiency',
+                                    1.0,
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                   );
                 },
@@ -1294,12 +1422,19 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildLanguageItem(String flag, String language, String proficiency, double level) {
+  Widget _buildLanguageItem(
+    String flag,
+    String language,
+    String proficiency,
+    double level,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = MediaQuery.of(context).size.width > 1200;
-        final isTablet = MediaQuery.of(context).size.width > 768 && MediaQuery.of(context).size.width <= 1200;
-        
+        final isTablet =
+            MediaQuery.of(context).size.width > 768 &&
+            MediaQuery.of(context).size.width <= 1200;
+
         return Column(
           children: [
             Text(
@@ -1345,19 +1480,24 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
             ),
-          ]
+          ],
         );
       },
     );
   }
 
-  Widget _buildLanguageCard(String language, String proficiency, IconData icon, int delay) {
+  Widget _buildLanguageCard(
+    String language,
+    String proficiency,
+    IconData icon,
+    int delay,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final parentWidth = MediaQuery.of(context).size.width;
         final isWeb = parentWidth > 1200;
         final isTablet = parentWidth > 768 && parentWidth <= 1200;
-        
+
         return TweenAnimationBuilder<double>(
           duration: Duration(milliseconds: 800 + delay),
           tween: Tween(begin: 0.0, end: 1.0),
@@ -1373,7 +1513,9 @@ class _PortfolioViewState extends State<PortfolioView>
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFf59e0b).withOpacity(0.3)),
+                  border: Border.all(
+                    color: const Color(0xFFf59e0b).withOpacity(0.3),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFFf59e0b).withOpacity(0.2),
@@ -1429,7 +1571,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
 
         return Container(
           padding: EdgeInsets.all(isWeb ? 40 : (isTablet ? 30 : 20)),
@@ -1460,7 +1603,9 @@ class _PortfolioViewState extends State<PortfolioView>
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.3)),
+                        border: Border.all(
+                          color: const Color(0xFF60a5fa).withOpacity(0.3),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF60a5fa).withOpacity(0.15),
@@ -1483,10 +1628,26 @@ class _PortfolioViewState extends State<PortfolioView>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _buildContactIcon(Icons.email, 'mailto:shivamcsaiet316@gmail.com', 0),
-                              _buildContactIcon(Icons.phone, 'tel:+919057448064', 100),
-                              _buildContactIcon(Icons.work, 'https://www.linkedin.com/in/shivam20797', 200),
-                              _buildContactIcon(Icons.web, 'https://shivam20797.github.io/web-app/', 300),
+                              _buildContactIcon(
+                                Icons.email,
+                                'mailto:shivamcsaiet316@gmail.com',
+                                0,
+                              ),
+                              _buildContactIcon(
+                                Icons.phone,
+                                'tel:+919057448064',
+                                100,
+                              ),
+                              _buildContactIcon(
+                                Icons.work,
+                                'https://www.linkedin.com/in/shivam20797',
+                                200,
+                              ),
+                              _buildContactIcon(
+                                Icons.web,
+                                'https://shivam20797.github.io/web-app/',
+                                300,
+                              ),
                             ],
                           ),
                         ],
@@ -1506,7 +1667,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return Container(
@@ -1514,7 +1676,9 @@ class _PortfolioViewState extends State<PortfolioView>
           decoration: BoxDecoration(
             color: const Color(0xFF0f172a),
             image: DecorationImage(
-              image: NetworkImage('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23334155" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>'),
+              image: NetworkImage(
+                'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23334155" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>',
+              ),
               repeat: ImageRepeat.repeat,
               opacity: 0.4,
             ),
@@ -1530,23 +1694,90 @@ class _PortfolioViewState extends State<PortfolioView>
                 ),
               ),
               SizedBox(height: isWeb ? 30 : 20),
-              _buildProjectCategory('🟩 Featured Applications', 'Available on Google Play Store', [
-                {'name': 'Mars', 'desc': 'Safety & Inspection App', 'icon': Icons.security, 'url': 'https://play.google.com/store/apps/details?id=com.iinorth.mars&hl=en_IN'},
-                {'name': 'iSpray', 'desc': 'Location & Mapping Utility', 'icon': Icons.map, 'url': 'https://play.google.com/store/apps/details?id=com.iinorth.spray&hl=en_IN'},
-                {'name': 'GeoPhotos', 'desc': 'Image Location Tagging', 'icon': Icons.photo_camera, 'url': 'https://play.google.com/store/apps/details?id=app.geophotos&hl=en_IN'},
-                {'name': 'Shubhashish WaterWise', 'desc': 'Utility Management System', 'icon': Icons.business, 'url': 'https://play.google.com/store/apps/details?id=app.swm&hl=en_IN'},
-                {'name': 'Hy U', 'desc': 'Social Media Platform', 'icon': Icons.chat_bubble, 'url': 'https://play.google.com/store/apps/details?id=idf.apton.hyu&hl=en_IN'},
-              ], 0),
+              _buildProjectCategory(
+                '🟩 Featured Applications',
+                'Available on Google Play Store',
+                [
+                  {
+                    'name': 'Mars',
+                    'desc': 'Safety & Inspection App',
+                    'icon': Icons.security,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=com.iinorth.mars&hl=en_IN',
+                  },
+                  {
+                    'name': 'iSpray',
+                    'desc': 'Location & Mapping Utility',
+                    'icon': Icons.map,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=com.iinorth.spray&hl=en_IN',
+                  },
+                  {
+                    'name': 'GeoPhotos',
+                    'desc': 'Image Location Tagging',
+                    'icon': Icons.photo_camera,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=app.geophotos&hl=en_IN',
+                  },
+                  {
+                    'name': 'Shubhashish WaterWise',
+                    'desc': 'Utility Management System',
+                    'icon': Icons.business,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=app.swm&hl=en_IN',
+                  },
+                  {
+                    'name': 'Hy U',
+                    'desc': 'Social Media Platform',
+                    'icon': Icons.chat_bubble,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=idf.apton.hyu&hl=en_IN',
+                  },
+                ],
+                0,
+              ),
               const SizedBox(height: 30),
-              _buildProjectCategory('🟦 Government & Enterprise', 'Large-scale solutions', [
-                {'name': 'Infra Verification', 'desc': 'Agricultural Management', 'icon': Icons.agriculture, 'url': 'https://play.google.com/store/apps/details?id=com.jvvnl.agri&hl=en_IN'},
-                {'name': 'NDFDC', 'desc': 'Development Corporation', 'icon': Icons.account_balance},
-                {'name': 'Parking JSCL', 'desc': 'Smart Parking System', 'icon': Icons.local_parking, 'url': 'https://play.google.com/store/apps/details?id=com.jscl.parking&hl=en_IN'},
-              ], 200),
+              _buildProjectCategory(
+                '🟦 Government & Enterprise',
+                'Large-scale solutions',
+                [
+                  {
+                    'name': 'Infra Verification',
+                    'desc': 'Agricultural Management',
+                    'icon': Icons.agriculture,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=com.jvvnl.agri&hl=en_IN',
+                  },
+                  {
+                    'name': 'NDFDC',
+                    'desc': 'Development Corporation',
+                    'icon': Icons.account_balance,
+                  },
+                  {
+                    'name': 'Parking JSCL',
+                    'desc': 'Smart Parking System',
+                    'icon': Icons.local_parking,
+                    'url':
+                        'https://play.google.com/store/apps/details?id=com.jscl.parking&hl=en_IN',
+                  },
+                ],
+                200,
+              ),
               const SizedBox(height: 30),
-              _buildProjectCategory('🟨 International Projects', 'Global client solutions', [
-                {'name': 'IntElux', 'desc': 'IoT Lighting Control', 'icon': Icons.lightbulb, 'url': 'https://play.google.com/store/search?q=intelux&c=apps&hl=en_IN'},
-              ], 400),
+              _buildProjectCategory(
+                '🟨 International Projects',
+                'Global client solutions',
+                [
+                  {
+                    'name': 'IntElux',
+                    'desc': 'IoT Lighting Control',
+                    'icon': Icons.lightbulb,
+                    'url':
+                        'https://play.google.com/store/search?q=intelux&c=apps&hl=en_IN',
+                  },
+                ],
+                400,
+              ),
               const SizedBox(height: 30),
               _buildProjectSummary(),
             ],
@@ -1556,11 +1787,17 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildProjectCategory(String title, String subtitle, List<Map<String, dynamic>> projects, int delay) {
+  Widget _buildProjectCategory(
+    String title,
+    String subtitle,
+    List<Map<String, dynamic>> projects,
+    int delay,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
         final isMobile = constraints.maxWidth <= 768;
 
         return TweenAnimationBuilder<double>(
@@ -1576,7 +1813,9 @@ class _PortfolioViewState extends State<PortfolioView>
                   decoration: BoxDecoration(
                     color: const Color(0xFF1e293b).withOpacity(0.7),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF475569).withOpacity(0.4)),
+                    border: Border.all(
+                      color: const Color(0xFF475569).withOpacity(0.4),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -1606,26 +1845,44 @@ class _PortfolioViewState extends State<PortfolioView>
                       ),
                       SizedBox(height: isWeb ? 16 : 12),
                       isMobile
-                        ? Column(
-                            children: projects.map((project) => 
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: _buildProjectItem(project, isWeb, isTablet, isMobile),
-                              )
-                            ).toList(),
-                          )
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: isWeb ? 4 : (isTablet ? 3 : 2),
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: isWeb ? 3.0 : (isTablet ? 2.8 : 2.5),
+                          ? Column(
+                              children: projects
+                                  .map(
+                                    (project) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: _buildProjectItem(
+                                        project,
+                                        isWeb,
+                                        isTablet,
+                                        isMobile,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: isWeb
+                                        ? 4
+                                        : (isTablet ? 3 : 2),
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8,
+                                    childAspectRatio: isWeb
+                                        ? 3.0
+                                        : (isTablet ? 2.8 : 2.5),
+                                  ),
+                              itemCount: projects.length,
+                              itemBuilder: (context, index) =>
+                                  _buildProjectItem(
+                                    projects[index],
+                                    isWeb,
+                                    isTablet,
+                                    isMobile,
+                                  ),
                             ),
-                            itemCount: projects.length,
-                            itemBuilder: (context, index) => _buildProjectItem(projects[index], isWeb, isTablet, isMobile),
-                          ),
                     ],
                   ),
                 ),
@@ -1637,7 +1894,12 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildProjectItem(Map<String, dynamic> project, bool isWeb, bool isTablet, bool isMobile) {
+  Widget _buildProjectItem(
+    Map<String, dynamic> project,
+    bool isWeb,
+    bool isTablet,
+    bool isMobile,
+  ) {
     return Container(
       padding: EdgeInsets.all(isWeb ? 12 : (isTablet ? 10 : 8)),
       decoration: BoxDecoration(
@@ -1696,7 +1958,9 @@ class _PortfolioViewState extends State<PortfolioView>
                 decoration: BoxDecoration(
                   color: const Color(0xFF60a5fa).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
+                  border: Border.all(
+                    color: const Color(0xFF60a5fa).withOpacity(0.5),
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -1725,7 +1989,12 @@ class _PortfolioViewState extends State<PortfolioView>
     );
   }
 
-  Widget _buildHeaderStatBox(String number, String label, bool isWeb, bool isTablet) {
+  Widget _buildHeaderStatBox(
+    String number,
+    String label,
+    bool isWeb,
+    bool isTablet,
+  ) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? 16 : 12,
@@ -1762,7 +2031,8 @@ class _PortfolioViewState extends State<PortfolioView>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWeb = constraints.maxWidth > 1200;
-        final isTablet = constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
+        final isTablet =
+            constraints.maxWidth > 768 && constraints.maxWidth <= 1200;
 
         return TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 1000),
@@ -1775,7 +2045,9 @@ class _PortfolioViewState extends State<PortfolioView>
                 decoration: BoxDecoration(
                   color: const Color(0xFF1e293b),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF475569).withOpacity(0.5)),
+                  border: Border.all(
+                    color: const Color(0xFF475569).withOpacity(0.5),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
@@ -1832,8 +2104,6 @@ class _PortfolioViewState extends State<PortfolioView>
       },
     );
   }
-
-
 }
 
 class _ProjectCard extends StatefulWidget {
@@ -1855,7 +2125,8 @@ class _ProjectCard extends StatefulWidget {
   State<_ProjectCard> createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderStateMixin {
+class _ProjectCardState extends State<_ProjectCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _expandAnimation;
   bool _isExpanded = false;
@@ -1899,11 +2170,15 @@ class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderSta
         animation: _expandAnimation,
         builder: (context, child) {
           return Container(
-            padding: EdgeInsets.all(widget.isWeb ? 12 : (widget.isTablet ? 10 : 8)),
+            padding: EdgeInsets.all(
+              widget.isWeb ? 12 : (widget.isTablet ? 10 : 8),
+            ),
             decoration: BoxDecoration(
               color: const Color(0xFF334155).withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color(0xFF64748b).withOpacity(0.4)),
+              border: Border.all(
+                color: const Color(0xFF64748b).withOpacity(0.4),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1927,7 +2202,9 @@ class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderSta
                       child: Text(
                         widget.project['name'],
                         style: TextStyle(
-                          fontSize: widget.isWeb ? 12 : (widget.isTablet ? 11 : 10),
+                          fontSize: widget.isWeb
+                              ? 12
+                              : (widget.isTablet ? 11 : 10),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -1953,7 +2230,9 @@ class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderSta
                           Text(
                             widget.project['desc'],
                             style: TextStyle(
-                              fontSize: widget.isWeb ? 10 : (widget.isTablet ? 9 : 8),
+                              fontSize: widget.isWeb
+                                  ? 10
+                                  : (widget.isTablet ? 9 : 8),
                               color: const Color(0xFF94a3b8),
                             ),
                           ),
@@ -1962,13 +2241,23 @@ class _ProjectCardState extends State<_ProjectCard> with SingleTickerProviderSta
                               children: [
                                 const SizedBox(height: 8),
                                 InkWell(
-                                  onTap: () => widget.onLaunch(widget.project['url']),
+                                  onTap: () =>
+                                      widget.onLaunch(widget.project['url']),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFF60a5fa).withOpacity(0.2),
+                                      color: const Color(
+                                        0xFF60a5fa,
+                                      ).withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: const Color(0xFF60a5fa).withOpacity(0.5)),
+                                      border: Border.all(
+                                        color: const Color(
+                                          0xFF60a5fa,
+                                        ).withOpacity(0.5),
+                                      ),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -2021,7 +2310,8 @@ class _FlipCard extends StatefulWidget {
   State<_FlipCard> createState() => _FlipCardState();
 }
 
-class _FlipCardState extends State<_FlipCard> with SingleTickerProviderStateMixin {
+class _FlipCardState extends State<_FlipCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isFlipped = false;
@@ -2033,9 +2323,10 @@ class _FlipCardState extends State<_FlipCard> with SingleTickerProviderStateMixi
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -2069,16 +2360,25 @@ class _FlipCardState extends State<_FlipCard> with SingleTickerProviderStateMixi
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final parentWidth = constraints.maxWidth;
-                final cardWidth = parentWidth > 800 ? 140.0 : (parentWidth > 400 ? 120.0 : 100.0);
-                final cardHeight = parentWidth > 800 ? 120.0 : (parentWidth > 400 ? 100.0 : 90.0);
+                final cardWidth = parentWidth > 800
+                    ? 140.0
+                    : (parentWidth > 400 ? 120.0 : 100.0);
+                final cardHeight = parentWidth > 800
+                    ? 120.0
+                    : (parentWidth > 400 ? 100.0 : 90.0);
 
                 return Container(
                   width: cardWidth,
                   height: cardHeight,
                   decoration: BoxDecoration(
-                    color: isShowingFront ? const Color(0xFF0f172a) : const Color(0xFF60a5fa),
+                    color: isShowingFront
+                        ? const Color(0xFF0f172a)
+                        : const Color(0xFF60a5fa),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFF60a5fa), width: 1),
+                    border: Border.all(
+                      color: const Color(0xFF60a5fa),
+                      width: 1,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF60a5fa).withOpacity(0.2),
