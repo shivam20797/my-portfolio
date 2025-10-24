@@ -27,6 +27,7 @@ class _PortfolioViewState extends State<PortfolioView>
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(), // Contact section
   ];
 
   @override
@@ -70,14 +71,19 @@ class _PortfolioViewState extends State<PortfolioView>
     final scrollOffset = _scrollController.offset;
     int newIndex = 0;
     
-    for (int i = 0; i < _sectionKeys.length; i++) {
-      final context = _sectionKeys[i].currentContext;
-      if (context != null) {
-        final box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final position = box.localToGlobal(Offset.zero).dy;
-          if (position <= 200) {
-            newIndex = i;
+    // Check if we're near the bottom (contact section)
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+      newIndex = 6; // Contact tab
+    } else {
+      for (int i = 0; i < _sectionKeys.length - 1; i++) {
+        final context = _sectionKeys[i].currentContext;
+        if (context != null) {
+          final box = context.findRenderObject() as RenderBox?;
+          if (box != null) {
+            final position = box.localToGlobal(Offset.zero).dy;
+            if (position <= 200) {
+              newIndex = i;
+            }
           }
         }
       }
@@ -92,13 +98,22 @@ class _PortfolioViewState extends State<PortfolioView>
   }
 
   void _scrollToSection(int index) {
-    final context = _sectionKeys[index].currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
+    if (index == 6) {
+      // Contact section - scroll to bottom
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
+    } else {
+      final context = _sectionKeys[index].currentContext;
+      if (context != null) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -131,7 +146,7 @@ class _PortfolioViewState extends State<PortfolioView>
                     Container(key: _sectionKeys[3], child: _buildProjects()),
                     Container(key: _sectionKeys[4], child: _buildEducation()),
                     Container(key: _sectionKeys[5], child: _buildLanguages()),
-                    _buildContact(),
+                    Container(key: _sectionKeys[6], child: _buildContact()),
                   ],
                 ),
               ),
