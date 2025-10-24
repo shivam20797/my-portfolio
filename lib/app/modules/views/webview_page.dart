@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'dart:html' as html;
 import 'dart:ui_web' as ui;
 
-import '../controllers/web_controller.dart';
+import '../controllers/web_controller';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({super.key});
@@ -26,17 +26,14 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   void _registerWebView() {
-    ui.platformViewRegistry.registerViewFactory(
-      viewId,
-      (int id) {
-        final iframe = html.IFrameElement()
-          ..src = controller.websiteUrl.value
-          ..style.border = 'none'
-          ..style.width = '100%'
-          ..style.height = '100%';
-        return iframe;
-      },
-    );
+    ui.platformViewRegistry.registerViewFactory(viewId, (int id) {
+      final iframe = html.IFrameElement()
+        ..src = controller.websiteUrl.value
+        ..style.border = 'none'
+        ..style.width = '100%'
+        ..style.height = '100%';
+      return iframe;
+    });
   }
 
   @override
